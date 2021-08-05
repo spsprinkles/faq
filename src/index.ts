@@ -1,5 +1,5 @@
 import { ContextInfo } from "gd-sprest-bs";
-import { Dashboard } from "./dashboard";
+import { App } from "./app";
 import { Configuration } from "./cfg";
 import Strings from "./strings";
 
@@ -10,11 +10,11 @@ window[Strings.GlobalVariable] = {
         // Set the page context if it exists
         if (context) { ContextInfo.setPageContext(context); }
 
-        // Render the dashboard
-        new Dashboard(el);
+        // Render the app
+        new App(el);
     }
 }
 
 // Get the element and render the app if it is found
 let elApp = document.querySelector("#" + Strings.AppElementId) as HTMLElement;
-if (elApp) { new Dashboard(elApp); }
+if (elApp) { new App(elApp); }

@@ -17,7 +17,11 @@
   },
   "license": "ISC",
   "dependencies": {
-    "gd-sprest-bs": "^7.6.6",
+    "datatables.net": "^1.10.25",
+    "datatables.net-bs5": "^1.10.25",
+    "dattatable": "^0.7.6",
+    "gd-sprest-bs": "^7.8.5",
+    "jquery": "^3.6.0",
     "moment": "^2.29.1"
   },
   "devDependencies": {

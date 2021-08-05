@@ -3,7 +3,7 @@
   "solution": {
     "name": "FAQ",
     "id": "3b72a629-97f4-488c-ad35-55abe0c5aac3",
-    "version": "0.1.0.0",
+    "version": "0.1.0.1",
     "includeClientSideAssets": true,
     "isDomainIsolated": false,
     "developer": {
