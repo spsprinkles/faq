@@ -7,8 +7,8 @@ specifiers:
   css-loader: ^5.2.4
   datatables.net: ^1.10.25
   datatables.net-bs5: ^1.10.25
-  dattatable: ^0.7.6
-  gd-sprest-bs: ^7.8.5
+  dattatable: ^0.7.7
+  gd-sprest-bs: ^7.8.7
   html-loader: ^2.1.2
   jquery: ^3.6.0
   moment: ^2.29.1
@@ -25,8 +25,8 @@ specifiers:
 dependencies:
   datatables.net: 1.10.25
   datatables.net-bs5: 1.10.25
-  dattatable: 0.7.6_0d85aa3d973a0c44095d82be8d5a9f7a
-  gd-sprest-bs: 7.8.5
+  dattatable: 0.7.7_c08dd3e986cd0cfe4740814ffb017620
+  gd-sprest-bs: 7.8.7
   jquery: 3.6.0
   moment: 2.29.1
 
@@ -1794,8 +1794,8 @@ packages:
       jquery: 3.6.0
     dev: false
 
-  /dattatable/0.7.6_0d85aa3d973a0c44095d82be8d5a9f7a:
-    resolution: {integrity: sha512-d/HWzkXA2ypXtk2h88xrk8KOJjIHJXbeD9fd8+7R6pzZI+UHMGaLpyKqFMUpmtKj8Qz/cCurwl8MwHADxNzRmw==}
+  /dattatable/0.7.7_c08dd3e986cd0cfe4740814ffb017620:
+    resolution: {integrity: sha512-tcpEg/bydyTZblrHzqUxO1Sxa63RegP1opEQy+M+ZORRtH/GN4ZOh4jVqnAZuS+YADAXVPp54ad7dPdxyrIBJQ==}
     peerDependencies:
       datatables.net: '*'
       datatables.net-bs5: '*'
@@ -1805,7 +1805,7 @@ packages:
     dependencies:
       datatables.net: 1.10.25
       datatables.net-bs5: 1.10.25
-      gd-sprest-bs: 7.8.5
+      gd-sprest-bs: 7.8.7
       jquery: 3.6.0
       moment: 2.29.1
     dev: false
@@ -2082,8 +2082,8 @@ packages:
       - '@popperjs/core'
     dev: false
 
-  /gd-sprest-bs/7.8.5:
-    resolution: {integrity: sha512-1tNPxLpYzj1nP97T0fo2ubFnRZzSs43eAZf6kN68vlob6vEJdDkTNLdcpTh99n4sOjjr+OC336j7adw8E5kPmA==}
+  /gd-sprest-bs/7.8.7:
+    resolution: {integrity: sha512-SO0SL7RH5g35PWqhqDQ+UpSqG9Nlk2hY1ckrvBaWeVxs6Ipv620n8iVxxRy/Xskh3nqobVxDjc5DyJ9nEANo0A==}
     dependencies:
       flatpickr: 4.6.9
       gd-bs: 4.7.0
