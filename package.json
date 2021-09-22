@@ -19,8 +19,8 @@
   "dependencies": {
     "datatables.net": "^1.11.2",
     "datatables.net-bs5": "^1.11.2",
-    "dattatable": "^0.9.0",
-    "gd-sprest-bs": "^8.2.6",
+    "dattatable": "^0.9.5",
+    "gd-sprest-bs": "^8.5.2",
     "jquery": "^3.6.0",
     "moment": "^2.29.1"
   },
@@ -28,16 +28,16 @@
     "@babel/core": "^7.15.5",
     "@babel/preset-env": "^7.15.6",
     "babel-loader": "^8.2.2",
-    "css-loader": "^6.2.0",
+    "css-loader": "^6.3.0",
     "html-loader": "^2.1.2",
     "node-sass": "^6.0.1",
     "sass-loader": "^12.1.0",
-    "style-loader": "^3.2.1",
+    "style-loader": "^3.3.0",
     "terser-webpack-plugin": "^5.2.4",
-    "ts-loader": "^9.2.5",
+    "ts-loader": "^9.2.6",
     "typescript": "^4.4.3",
     "url-loader": "^4.1.1",
-    "webpack": "^5.52.1",
+    "webpack": "^5.53.0",
     "webpack-cli": "^4.8.0"
   }
 }
