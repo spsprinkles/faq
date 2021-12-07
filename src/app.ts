@@ -30,6 +30,10 @@ export class App {
         // Render the footer
         new Footer({
             el,
+            onRendering: props => {
+                // Update the properties
+                props.className = "navbar-expand-sm";
+            },
             itemsEnd: [{
                 text: Strings.Version
             }]
@@ -96,13 +100,38 @@ export class App {
         new Navigation({
             el,
             title: Strings.ProjectName,
+            onRendering: props => {
+                // Update the navigation properties
+                props.className = "navbar-expand-sm";
+                props.type = Components.NavbarTypes.Primary;
+            },
             onShowFilter: () => {
                 // Show the filter
                 filter.show();
             },
-            onRendering: props => {
-                // Update the navigation properties
-                props.type = Components.NavbarTypes.Primary;
+            onSearch: value => {
+                // Remove the spaces from the value
+                value = (value ? value.trim() : "").toLowerCase();
+
+                // Parse all accordion items
+                let items = el.querySelectorAll(".accordion-item");
+                for (let i = 0; i < items.length; i++) {
+                    let elItem = items[i] as HTMLElement;
+                    let elContent = elItem.querySelector(".accordion-body") as HTMLElement;
+
+                    // Show the item
+                    elItem.classList.remove("d-none");
+
+                    // See if a search value exists
+                    if (value) {
+                        // See if the item contains the search value
+                        if (elItem.innerText.toLowerCase().indexOf(value) < 0 &&
+                            elContent.innerText.toLowerCase().indexOf(value) < 0) {
+                            // Hide the item
+                            elItem.classList.add("d-none");
+                        }
+                    }
+                }
             },
             items: [
                 {
