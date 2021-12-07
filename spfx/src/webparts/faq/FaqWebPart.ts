@@ -21,7 +21,7 @@ export default class FaqWebPart extends BaseClientSideWebPart<IFaqWebPartProps> 
 
   public render(): void {
     // Render the webpart
-    DattaFAQ.load(this.domElement, this.context.pageContext);
+    DattaFAQ.render(this.domElement, this.context.pageContext);
   }
 
   protected get dataVersion(): Version {
