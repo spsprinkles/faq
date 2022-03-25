@@ -1,53 +1,33 @@
-var project = require("./package.json");
 var path = require("path");
-var TerserPlugin = require("terser-webpack-plugin");
+var project = require("./package.json");
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
-// Return the configuration
+// Export the configuration
 module.exports = (env, argv) => {
-    var isDev = argv.mode !== "production"
+    var isDev = argv.mode === "development";
+
+    // Return the configuration
     return {
-        // Set the main source as the entry point
+        // Main project files
         entry: [
             path.resolve(__dirname, project.main)
         ],
 
-        // Output location
+        // Output information
         output: {
             path: path.resolve(__dirname, "dist"),
-            filename: project.name + (isDev ? "" : ".min") + ".js"
+            filename: project.name + (isDev ? "" : ".min") + ".js",
+            publicPath: ""
         },
 
-        // Optimize and minimize the code
-        optimization: {
-            minimize: (isDev ? false : true),
-            minimizer: [
-                new TerserPlugin({
-                    extractComments: false,
-                    terserOptions: {
-                        output: {
-                            // Remove all comments if it's not a dev build
-                            comments: (isDev ? true : false),
-                        }
-                    },
-                }),
-            ]
-        },
+        // Keep only 'en' locales with Moment.js
+        plugins: [
+            new MomentLocalesPlugin(),
+        ],
 
         // Resolve the file names
         resolve: {
-            extensions: [".js", ".css", ".scss", ".ts", ".vue"],
-            alias: {
-                // Reference the minified versions
-                "moment.js": "moment/min/moment.min.js"
-            }
-        },
-
-        // Dev Server
-        devServer: {
-            inline: true,
-            hot: true,
-            open: true,
-            publicPath: "/dist/"
+            extensions: [".js", ".css", ".scss", ".ts"]
         },
 
         // Loaders
@@ -64,7 +44,12 @@ module.exports = (env, argv) => {
                         // Translate css to CommonJS
                         { loader: "css-loader" },
                         // Compile sass to css
-                        { loader: "sass-loader" }
+                        {
+                            loader: "sass-loader",
+                            options: {
+                                implementation: require("sass")
+                            }
+                        }
                     ]
                 },
                 // Handle Image Files

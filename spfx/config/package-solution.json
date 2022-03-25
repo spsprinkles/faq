@@ -3,9 +3,11 @@
   "solution": {
     "name": "FAQ",
     "id": "3b72a629-97f4-488c-ad35-55abe0c5aac3",
-    "version": "0.1.0.6",
+    "version": "0.1.0.7",
     "includeClientSideAssets": true,
     "isDomainIsolated": false,
+    "skipFeatureDeployment": true,
+    "iconPath": "images/AppIcon.png",
     "developer": {
       "name": "Gunjan Datta",
       "websiteUrl": "https://dev.azure.com/gudatta/Datta%20Framework/_git/faq",
