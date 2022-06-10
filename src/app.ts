@@ -1,5 +1,6 @@
 import { FilterSlideout, Footer, ItemForm, Navigation } from "dattatable";
 import { Components } from "gd-sprest-bs";
+import { plus } from "gd-sprest-bs/build/icons/svgs/plus";
 import { questionCircleFill } from "gd-sprest-bs/build/icons/svgs/questionCircleFill";
 import { DataSource } from "./ds";
 import strings from "./strings";
@@ -118,33 +119,7 @@ export class App {
             },
             onSearchRendered: (el) => {
                 el.setAttribute("placeholder", "Search all FAQ's");
-            },
-            itemsEnd: [
-                {
-                    className: "btn-outline-light",
-                    text: "Submit a Question",
-                    isButton: true,
-                    onClick: () => {
-                        // Create an item
-                        ItemForm.create({
-                            onCreateEditForm: props => {
-                                // Update the fields to display
-                                props.excludeFields = ["Answer", "Approved"];
-
-                                // Return the properties
-                                return props;
-                            },
-                            onFormButtonsRendering: buttons => {
-                                // Update the create button
-                                buttons[0].text = "Submit";
-
-                                // Return the buttons
-                                return buttons;
-                            }
-                        });
-                    }
-                }
-            ]
+            }
         });
     }
 
@@ -189,32 +164,62 @@ export class App {
                 props.className = "navbar-expand-sm navbar-sub rounded-bottom";
                 props.type = Components.NavbarTypes.Light;
             },
+            // Move the filter icon in front of the last icon
+            onRendered: (el) => {
+                let filter = el.querySelector(".filter-icon");
+                if (filter) {
+                    let filterItem = document.createElement("li");
+                    filterItem.className = "nav-item";
+                    filterItem.appendChild(filter);
+                    let ul = el.querySelector("#navbar_content ul:last-child");
+                    let li = ul.querySelector("li:last-child");
+                    ul.insertBefore(filterItem, li);
+                }
+            },
             onShowFilter: () => {
                 // Show the filter
                 filter.show();
             },
-            items: [
+            itemsEnd: [
                 {
-                    className: "btn-outline-light",
-                    text: "Submit a Question",
-                    isButton: true,
-                    onClick: () => {
-                        // Create an item
-                        ItemForm.create({
-                            onCreateEditForm: props => {
-                                // Update the fields to display
-                                props.excludeFields = ["Answer", "Approved"];
+                    text: "Ask a Question",
+                    onRender: (el, item) => {
+                        // Clear the existing button
+                        el.innerHTML = "";
+                        // Create a span to wrap the icon in
+                        let span = document.createElement("span");
+                        span.className = "bg-white d-inline-flex ms-2 rounded";
+                        el.appendChild(span);
 
-                                // Return the properties
-                                return props;
+                        // Render a tooltip
+                        Components.Tooltip({
+                            el: span,
+                            content: item.text,
+                            btnProps: {
+                                // Render the icon button
+                                iconType: plus,
+                                iconSize: 28,
+                                type: Components.ButtonTypes.OutlineSecondary,
+                                onClick: () => {
+                                    // Create an item
+                                    ItemForm.create({
+                                        onCreateEditForm: props => {
+                                            // Update the fields to display
+                                            props.excludeFields = ["Answer", "Approved"];
+
+                                            // Return the properties
+                                            return props;
+                                        },
+                                        onFormButtonsRendering: buttons => {
+                                            // Update the create button
+                                            buttons[0].text = "Submit";
+
+                                            // Return the buttons
+                                            return buttons;
+                                        }
+                                    });
+                                }
                             },
-                            onFormButtonsRendering: buttons => {
-                                // Update the create button
-                                buttons[0].text = "Submit";
-
-                                // Return the buttons
-                                return buttons;
-                            }
                         });
                     }
                 }
