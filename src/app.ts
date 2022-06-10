@@ -31,10 +31,14 @@ export class App {
             el,
             onRendering: props => {
                 // Update the properties
-                props.className = "navbar-expand-sm";
+                props.className = "footer p-0";
+            },
+            onRendered: (el) => {
+                el.querySelector("nav.footer").classList.remove("bg-light");
             },
             itemsEnd: [{
-                text: Strings.Version
+                className: "pe-none",
+                text: "v" + Strings.Version
             }]
         });
     }
