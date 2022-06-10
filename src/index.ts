@@ -5,6 +5,9 @@ import { Configuration } from "./cfg";
 import { DataSource } from "./ds";
 import Strings from "./strings";
 
+// Styling
+import "./styles.scss";
+
 // Create the global variable for this solution
 const GlobalVariable = {
     Configuration,
