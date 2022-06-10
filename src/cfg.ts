@@ -27,21 +27,26 @@ export const Configuration = Helper.SPConfig({
                 {
                     name: "Category",
                     title: "Category",
+                    defaultValue: "Unified Support",
                     type: Helper.SPCfgFieldType.Choice,
                     required: true,
                     choices: [
                         "Applications",
-                        "Chat",
-                        "CHES Environment",
+                        "DAF365 Environment",
                         "Connectivity",
+                        "Contract",
+                        "Customer Support Account Manager",
+                        "Customer Engineer",
                         "Documents",
                         "General",
                         "Getting Started",
                         "Meetings",
+                        "MECM/SCCM",
+                        "Microsoft Teams",
                         "Security",
-                        "Support",
+                        "Services Hub",
                         "Tasks and Planner",
-                        "Top Questions"
+                        "Unified Support"
                     ]
                 } as Helper.IFieldInfoChoice,
                 {
