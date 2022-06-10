@@ -3,7 +3,6 @@ import { Components } from "gd-sprest-bs";
 import { plus } from "gd-sprest-bs/build/icons/svgs/plus";
 import { questionCircleFill } from "gd-sprest-bs/build/icons/svgs/questionCircleFill";
 import { DataSource } from "./ds";
-import strings from "./strings";
 import Strings from "./strings";
 
 /**
@@ -24,9 +23,6 @@ export class App {
         // Render the navigation
         this.renderNavigation(el);
         
-        // Render the sub-navigation
-        this.renderSubNavigation(el);
-
         // Render the accordion
         this.renderAccordion(el);
 
@@ -70,11 +66,39 @@ export class App {
 
     // Renders the navigation
     private renderNavigation(el: HTMLElement) {
+        // Render the filters
+        let filter = new FilterSlideout({
+            filters: [{
+                header: "By Category",
+                items: DataSource.CategoryFilters,
+                onFilter: (filter: string) => {
+                    let className = filter ? filter.toLowerCase().replace(/ /g, "-") : null;
+
+                    // Parse all accordion items
+                    let items = el.querySelectorAll(".accordion-item");
+                    for (let i = 0; i < items.length; i++) {
+                        let elItem = items[i];
+
+                        // Show the item
+                        elItem.classList.remove("d-none");
+
+                        // See if a class name exists
+                        if (className) {
+                            // See if this item doesn't matches
+                            if (!elItem.classList.contains(className)) {
+                                // Hide the item
+                                elItem.classList.add("d-none");
+                            }
+                        }
+                    }
+                }
+            }]
+        });
+
         // Render the navigation
         new Navigation({
             el,
             title: Strings.ProjectName,
-            hideFilter: true,
             onRendering: props => {
                 // Update the navigation properties
                 props.className = "bg-sharepoint navbar-expand-sm rounded-top";
@@ -119,67 +143,18 @@ export class App {
             },
             onSearchRendered: (el) => {
                 el.setAttribute("placeholder", "Search all FAQ's");
-            }
-        });
-    }
-
-    // Renders the sub-navigation
-    private renderSubNavigation(el: HTMLElement) {
-        // Render the filters
-        let filter = new FilterSlideout({
-            filters: [{
-                header: "By Category",
-                items: DataSource.CategoryFilters,
-                onFilter: (filter: string) => {
-                    let className = filter ? filter.toLowerCase().replace(/ /g, "-") : null;
-
-                    // Parse all accordion items
-                    let items = el.querySelectorAll(".accordion-item");
-                    for (let i = 0; i < items.length; i++) {
-                        let elItem = items[i];
-
-                        // Show the item
-                        elItem.classList.remove("d-none");
-
-                        // See if a class name exists
-                        if (className) {
-                            // See if this item doesn't matches
-                            if (!elItem.classList.contains(className)) {
-                                // Hide the item
-                                elItem.classList.add("d-none");
-                            }
-                        }
-                    }
-                }
-            }]
-        });
-
-        // Render the sub-navigation
-        new Navigation({
-            el,
-            title: "",
-            hideSearch: true,
-            onRendering: props => {
-                // Update the navigation properties
-                props.className = "navbar-expand-sm navbar-sub rounded-bottom";
-                props.type = Components.NavbarTypes.Light;
-            },
-            // Move the filter icon in front of the last icon
-            onRendered: (el) => {
-                let filter = el.querySelector(".filter-icon");
-                if (filter) {
-                    let filterItem = document.createElement("li");
-                    filterItem.className = "nav-item";
-                    filterItem.appendChild(filter);
-                    let ul = el.querySelector("#navbar_content ul:last-child");
-                    let li = ul.querySelector("li:last-child");
-                    ul.insertBefore(filterItem, li);
-                }
             },
             onShowFilter: () => {
                 // Show the filter
                 filter.show();
-            },
+            }
+        });
+
+        // Render the sub-navigation
+        let subNav = Components.Navbar({
+            el,
+            className: "navbar-sub rounded-bottom",
+            type: Components.NavbarTypes.Light,
             itemsEnd: [
                 {
                     text: "Ask a Question",
@@ -225,5 +200,15 @@ export class App {
                 }
             ]
         });
+
+        // Move the filter icon in front of the last icon
+        let btnFilter = document.querySelector("#" + Strings.AppElementId + " nav.navbar span.filter-icon");
+        if (btnFilter) {
+            let filterItem = document.createElement("li");
+            filterItem.className = "nav-item";
+            filterItem.appendChild(btnFilter);
+            let ul = subNav.el.querySelector("#navbar_content ul:last-child");
+            ul.appendChild(filterItem);
+        }
     }
 }
