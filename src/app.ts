@@ -1,6 +1,8 @@
 import { FilterSlideout, Footer, ItemForm, Navigation } from "dattatable";
 import { Components } from "gd-sprest-bs";
+import { questionCircleFill } from "gd-sprest-bs/build/icons/svgs/questionCircleFill";
 import { DataSource } from "./ds";
+import strings from "./strings";
 import Strings from "./strings";
 
 /**
@@ -20,6 +22,9 @@ export class App {
     private render(el: HTMLElement) {
         // Render the navigation
         this.renderNavigation(el);
+        
+        // Render the sub-navigation
+        this.renderSubNavigation(el);
 
         // Render the accordion
         this.renderAccordion(el);
@@ -64,6 +69,87 @@ export class App {
 
     // Renders the navigation
     private renderNavigation(el: HTMLElement) {
+        // Render the navigation
+        new Navigation({
+            el,
+            title: Strings.ProjectName,
+            hideFilter: true,
+            onRendering: props => {
+                // Update the navigation properties
+                props.className = "bg-sharepoint navbar-expand-sm rounded-top";
+                props.type = Components.NavbarTypes.Primary;
+                
+                // Add a logo to the navbar brand
+                let div = document.createElement("div");
+                let text = div.cloneNode() as HTMLDivElement;
+                div.className = "d-flex me-2";
+                text.className = "ms-2";
+                text.append(Strings.ProjectName);
+                div.appendChild(questionCircleFill());
+                div.appendChild(text);
+                props.brand = div;
+            },
+            onRendered: (el) => {
+                el.querySelector("a.navbar-brand").classList.add("pe-none");
+            },
+            onSearch: value => {
+                // Remove the spaces from the value
+                value = (value ? value.trim() : "").toLowerCase();
+
+                // Parse all accordion items
+                let items = el.querySelectorAll(".accordion-item");
+                for (let i = 0; i < items.length; i++) {
+                    let elItem = items[i] as HTMLElement;
+                    let elContent = elItem.querySelector(".accordion-body") as HTMLElement;
+
+                    // Show the item
+                    elItem.classList.remove("d-none");
+
+                    // See if a search value exists
+                    if (value) {
+                        // See if the item contains the search value
+                        if (elItem.innerText.toLowerCase().indexOf(value) < 0 &&
+                            elContent.innerText.toLowerCase().indexOf(value) < 0) {
+                            // Hide the item
+                            elItem.classList.add("d-none");
+                        }
+                    }
+                }
+            },
+            onSearchRendered: (el) => {
+                el.setAttribute("placeholder", "Search all FAQ's");
+            },
+            itemsEnd: [
+                {
+                    className: "btn-outline-light",
+                    text: "Submit a Question",
+                    isButton: true,
+                    onClick: () => {
+                        // Create an item
+                        ItemForm.create({
+                            onCreateEditForm: props => {
+                                // Update the fields to display
+                                props.excludeFields = ["Answer", "Approved"];
+
+                                // Return the properties
+                                return props;
+                            },
+                            onFormButtonsRendering: buttons => {
+                                // Update the create button
+                                buttons[0].text = "Submit";
+
+                                // Return the buttons
+                                return buttons;
+                            }
+                        });
+                    }
+                }
+            ]
+        });
+    }
+
+    // Renders the sub-navigation
+    private renderSubNavigation(el: HTMLElement) {
         // Render the filters
         let filter = new FilterSlideout({
             filters: [{
@@ -93,42 +179,19 @@ export class App {
             }]
         });
 
-        // Render the navigation
+        // Render the sub-navigation
         new Navigation({
             el,
-            title: Strings.ProjectName,
+            title: "",
+            hideSearch: true,
             onRendering: props => {
                 // Update the navigation properties
-                props.className = "navbar-expand-sm";
-                props.type = Components.NavbarTypes.Primary;
+                props.className = "navbar-expand-sm navbar-sub rounded-bottom";
+                props.type = Components.NavbarTypes.Light;
             },
             onShowFilter: () => {
                 // Show the filter
                 filter.show();
-            },
-            onSearch: value => {
-                // Remove the spaces from the value
-                value = (value ? value.trim() : "").toLowerCase();
-
-                // Parse all accordion items
-                let items = el.querySelectorAll(".accordion-item");
-                for (let i = 0; i < items.length; i++) {
-                    let elItem = items[i] as HTMLElement;
-                    let elContent = elItem.querySelector(".accordion-body") as HTMLElement;
-
-                    // Show the item
-                    elItem.classList.remove("d-none");
-
-                    // See if a search value exists
-                    if (value) {
-                        // See if the item contains the search value
-                        if (elItem.innerText.toLowerCase().indexOf(value) < 0 &&
-                            elContent.innerText.toLowerCase().indexOf(value) < 0) {
-                            // Hide the item
-                            elItem.classList.add("d-none");
-                        }
-                    }
-                }
             },
             items: [
                 {
