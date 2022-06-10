@@ -201,7 +201,7 @@ export class App {
             ]
         });
 
-        // Move the filter icon in front of the last icon
+        // Move the filter icon to sub-navbar
         let btnFilter = document.querySelector("#" + Strings.AppElementId + " nav.navbar span.filter-icon");
         if (btnFilter) {
             let filterItem = document.createElement("li");
