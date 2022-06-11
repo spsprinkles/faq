@@ -1,22 +1,22 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
-    "name": "FAQ",
-    "id": "3b72a629-97f4-488c-ad35-55abe0c5aac3",
-    "version": "0.1.0.7",
+    "name": "UnifiedFAQ",
+    "id": "c6148fcf-e640-4129-b696-3ece635de701",
+    "version": "0.0.0.1",
     "includeClientSideAssets": true,
     "isDomainIsolated": false,
     "skipFeatureDeployment": true,
     "iconPath": "images/AppIcon.png",
     "developer": {
-      "name": "Gunjan Datta",
-      "websiteUrl": "https://dev.azure.com/gudatta/Datta%20Framework/_git/faq",
+      "name": "Dade Register, Gunjan Datta",
+      "websiteUrl": "https://github.com/spsprinkles/faq/",
       "privacyUrl": "",
       "termsOfUseUrl": "",
       "mpnId": ""
     }
   },
   "paths": {
-    "zippedPackage": "../../dist/faq-wp.sppkg"
+    "zippedPackage": "../../dist/unified-faq.sppkg"
   }
 }

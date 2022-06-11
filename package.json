@@ -1,7 +1,7 @@
 {
   "name": "faq",
   "version": "1.0.0",
-  "description": "A basic faq.",
+  "description": "This is an FAQ for Unified Support",
   "main": "src/index.ts",
   "scripts": {
     "all": "node ./clean.js && npm run build && npm run prod && npm run spfx",
@@ -10,12 +10,15 @@
     "spfx": "cd spfx && npm run package"
   },
   "keywords": [],
-  "author": "Gunjan Datta <gudatta@microsoft.com>",
+  "author": "Dade Register, Gunjan Datta",
   "repository": {
     "type": "git",
-    "url": "https://dev.azure.com/gudatta/Datta%20Framework/_git/faq"
+    "url": "git+https://github.com/spsprinkles/faq.git"
   },
-  "license": "ISC",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/spsprinkles/faq/issues"
+  },
   "dependencies": {
     "datatables.net": "^1.12.1",
     "datatables.net-bs5": "^1.12.1",
