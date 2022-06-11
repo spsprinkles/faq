@@ -195,6 +195,9 @@ export class App {
 
                                             // Return the buttons
                                             return buttons;
+                                        },
+                                        onSetHeader: el => {
+                                            el.querySelector("h5").innerText = item.text;
                                         }
                                     });
                                 }
