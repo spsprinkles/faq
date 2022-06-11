@@ -1,8 +1,8 @@
 export default {
-    AppElementId: "datta-faq",
-    GlobalVariable: "DattaFAQ",
-    ProjectDescription: "This is a basic faq.",
-    ProjectName: "FAQ",
+    AppElementId: "unified-faq",
+    GlobalVariable: "UnifiedFAQ",
+    ProjectDescription: "This is an FAQ for Unified Support.",
+    ProjectName: "Unified Support FAQ",
     Lists: {
         FAQ: "FAQ"
     },

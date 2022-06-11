@@ -11,7 +11,7 @@ import * as strings from 'FaqWebPartStrings';
 
 // Reference the solution
 import "../../../../dist/faq.min.js";
-declare var DattaFAQ;
+declare var UnifiedFAQ;
 
 export interface IFaqWebPartProps {
   description: string;
@@ -21,7 +21,7 @@ export default class FaqWebPart extends BaseClientSideWebPart<IFaqWebPartProps> 
 
   public render(): void {
     // Render the webpart
-    DattaFAQ.render(this.domElement, this.context.pageContext);
+    UnifiedFAQ.render(this.domElement, this.context.pageContext);
   }
 
   protected get dataVersion(): Version {
