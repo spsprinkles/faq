@@ -23,12 +23,12 @@
     "datatables.net": "^1.12.1",
     "datatables.net-bs5": "^1.12.1",
     "dattatable": "^1.8.9",
-    "gd-sprest-bs": "^9.6.1",
+    "gd-sprest-bs": "^9.6.2",
     "jquery": "^3.6.0",
     "moment": "^2.29.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.2",
+    "@babel/core": "^7.18.5",
     "@babel/preset-env": "^7.18.2",
     "@types/datatables.net": "^1.10.22",
     "@types/jquery": "^3.5.14",
@@ -43,6 +43,6 @@
     "typescript": "^4.7.3",
     "url-loader": "^4.1.1",
     "webpack": "^5.73.0",
-    "webpack-cli": "^4.9.2"
+    "webpack-cli": "^4.10.0"
   }
 }
