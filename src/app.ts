@@ -210,6 +210,9 @@ export class App {
 
         // Move the filter icon to sub-navbar
         let btnFilter = document.querySelector("#" + Strings.AppElementId + " nav.navbar span.filter-icon");
+        if (!btnFilter) {
+            btnFilter = document.querySelector("div[data-sp-feature-tag='UnifiedFaqWebPart web part (Unified-FAQ)'] nav.navbar span.filter-icon");
+        }
         if (btnFilter) {
             let filterItem = document.createElement("li");
             filterItem.className = "nav-item";
