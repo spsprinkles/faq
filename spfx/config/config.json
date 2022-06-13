@@ -2,17 +2,17 @@
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
   "version": "2.0",
   "bundles": {
-    "faq-web-part": {
+    "unified-faq-web-part": {
       "components": [
         {
-          "entrypoint": "./lib/webparts/faq/FaqWebPart.js",
-          "manifest": "./src/webparts/faq/FaqWebPart.manifest.json"
+          "entrypoint": "./lib/webparts/unified-faq/FaqWebPart.js",
+          "manifest": "./src/webparts/unified-faq/FaqWebPart.manifest.json"
         }
       ]
     }
   },
   "externals": {},
   "localizedResources": {
-    "FaqWebPartStrings": "lib/webparts/faq/loc/{locale}.js"
+    "FaqWebPartStrings": "lib/webparts/unified-faq/loc/{locale}.js"
   }
 }

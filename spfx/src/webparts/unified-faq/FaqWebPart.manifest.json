@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
-  "id": "563190bc-adbe-4431-94e3-0553e07c0739",
-  "alias": "FaqWebPart",
+  "id": "60bc2b67-3350-4354-93f5-0db3556e8483",
+  "alias": "UnifiedFaqWebPart",
   "componentType": "WebPart",
   // The "*" signifies that the version should be taken from the package.json
   "version": "*",
@@ -15,12 +15,12 @@
   ],
   "preconfiguredEntries": [
     {
-      "groupId": "5c03119e-3074-46fd-976b-c60198311f70", // Other
+      "groupId": "ecf93bd1-c3c2-4731-b2df-801e1c66aa74", // Other
       "group": {
         "default": "Other"
       },
       "title": {
-        "default": "FAQ"
+        "default": "Unified-FAQ"
       },
       "description": {
         "default": "A frequently asked questions webpart for Unified Support."

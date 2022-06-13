@@ -3,7 +3,7 @@
   "solution": {
     "name": "UnifiedFAQ",
     "id": "c6148fcf-e640-4129-b696-3ece635de701",
-    "version": "0.0.0.1",
+    "version": "0.0.0.3",
     "includeClientSideAssets": true,
     "isDomainIsolated": false,
     "skipFeatureDeployment": true,
