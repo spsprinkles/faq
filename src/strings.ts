@@ -6,7 +6,17 @@ export default {
     Lists: {
         FAQ: "UnifiedFAQ"
     },
+    Links: {
+        Support: {
+            href: "/SitePages/Support.aspx",
+            text: "Unified Support"
+        },
+        GetSupport: {
+            href:"/SitePages/GetSupport.aspx",
+            text: "Get Support"
+        }
+    },
     SolutionUrl: "/siteassets/faq/index.html",
-    Version: "1.03",
+    Version: "1.0.7",
     WebSourceUrl: "/siteassets/faq/faq.min.js"
 }

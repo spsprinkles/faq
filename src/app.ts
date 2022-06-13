@@ -1,6 +1,7 @@
 import { FilterSlideout, Footer, ItemForm, Navigation } from "dattatable";
 import { Components } from "gd-sprest-bs";
 import { plus } from "gd-sprest-bs/build/icons/svgs/plus";
+import { link45deg } from "gd-sprest-bs/build/icons/svgs/link45deg";
 import { questionCircleFill } from "gd-sprest-bs/build/icons/svgs/questionCircleFill";
 import { DataSource } from "./ds";
 import Strings from "./strings";
@@ -204,6 +205,31 @@ export class App {
                             },
                         });
                     }
+                },
+                {
+                    // Create Dropdown
+                    text: "Links",
+                    isButton: true,
+                    className: "btn btn-sm btn-outline-secondary ms-2",
+                    iconSize: 20,
+                    iconType: link45deg,
+                    items: [
+                        {
+                            text: Strings.Links.Support.text,
+                            onClick: () => {
+                                window.location.href = Strings.Links.Support.href;
+                            }
+                        },
+                        {
+                            text: Strings.Links.GetSupport.text,
+                            onClick: () => {
+                                window.location.href = Strings.Links.GetSupport.href;
+                            }
+                        }
+                    ],
+                    onRender: (el) => {
+                        el.classList.add("bg-white");
+                    }
                 }
             ]
         });
@@ -218,7 +244,8 @@ export class App {
             filterItem.className = "nav-item";
             filterItem.appendChild(btnFilter);
             let ul = subNav.el.querySelector("#navbar_content ul:last-child");
-            ul.appendChild(filterItem);
+            let li = ul.querySelector("li:last-child");
+            ul.insertBefore(filterItem, li);
         }
     }
 }
