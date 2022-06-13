@@ -1,6 +1,6 @@
 {
   "name": "faq",
-  "version": "1.0.3",
+  "version": "1.0.7",
   "description": "This is an FAQ for Unified Support",
   "main": "src/index.ts",
   "scripts": {
