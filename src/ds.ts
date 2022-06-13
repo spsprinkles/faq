@@ -63,7 +63,7 @@ export class DataSource {
             // Load the data
             List(Strings.Lists.FAQ).Items().query({
                 Filter: "Approved eq 1",
-                OrderBy: ["Title"],
+                OrderBy: ["ID"],
                 Top: 1000
             }).execute(
                 // Success
