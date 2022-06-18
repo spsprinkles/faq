@@ -179,6 +179,7 @@ export class App {
                                 iconClassName: "me-1",
                                 iconType: questionSquare,
                                 iconSize: 24,
+                                isSmall: true,
                                 text: "Questions",
                                 type: Components.ButtonTypes.OutlineSecondary,
                                 onClick: () => {
@@ -227,6 +228,7 @@ export class App {
                                 iconClassName: "me-1",
                                 iconType: filterSquare,
                                 iconSize: 24,
+                                isSmall: true,
                                 text: "Filters",
                                 type: Components.ButtonTypes.OutlineSecondary,
                                 onClick: () => {

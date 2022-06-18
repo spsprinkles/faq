@@ -6,6 +6,10 @@ div[data-automation-id='pageHeader'] {
 .bs .accordion-button {
     background-color: rgba(0, 0, 0, 0.05);
 }
+/* Fix button text size */
+.bs .btn-icon {
+    font-size: 0.875rem;
+}
 /* Set styling for navbar-sub */
 .navbar-sub {
     background-color: rgba(0, 0, 0, 0.05);
