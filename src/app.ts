@@ -1,8 +1,9 @@
 import { FilterSlideout, Footer, ItemForm, Navigation } from "dattatable";
 import { Components } from "gd-sprest-bs";
-import { plus } from "gd-sprest-bs/build/icons/svgs/plus";
+import { filterSquare } from "gd-sprest-bs/build/icons/svgs/filterSquare";
 import { link45deg } from "gd-sprest-bs/build/icons/svgs/link45deg";
 import { questionCircleFill } from "gd-sprest-bs/build/icons/svgs/questionCircleFill";
+import { questionSquare } from "gd-sprest-bs/build/icons/svgs/questionSquare";
 import { DataSource } from "./ds";
 import Strings from "./strings";
 
@@ -103,6 +104,7 @@ export class App {
         // Render the navigation
         new Navigation({
             el,
+            hideFilter: true,
             title: Strings.ProjectName,
             onRendering: props => {
                 // Update the navigation properties
@@ -148,10 +150,6 @@ export class App {
             },
             onSearchRendered: (el) => {
                 el.setAttribute("placeholder", "Search all FAQ's");
-            },
-            onShowFilter: () => {
-                // Show the filter
-                filter.show();
             }
         });
 
@@ -177,8 +175,11 @@ export class App {
                             content: item.text,
                             btnProps: {
                                 // Render the icon button
-                                iconType: plus,
-                                iconSize: 28,
+                                className: "p-1 pe-2",
+                                iconClassName: "me-1",
+                                iconType: questionSquare,
+                                iconSize: 24,
+                                text: "Questions",
                                 type: Components.ButtonTypes.OutlineSecondary,
                                 onClick: () => {
                                     // Create an item
@@ -207,11 +208,42 @@ export class App {
                     }
                 },
                 {
+                    text: "Filter the FAQ's",
+                    onRender: (el, item) => {
+                        // Clear the existing button
+                        el.innerHTML = "";
+                        // Create a span to wrap the icon in
+                        let span = document.createElement("span");
+                        span.className = "bg-white d-inline-flex ms-2 rounded";
+                        el.appendChild(span);
+
+                        // Render a tooltip
+                        Components.Tooltip({
+                            el: span,
+                            content: item.text,
+                            btnProps: {
+                                // Render the icon button
+                                className: "p-1 pe-2",
+                                iconClassName: "me-1",
+                                iconType: filterSquare,
+                                iconSize: 24,
+                                text: "Filters",
+                                type: Components.ButtonTypes.OutlineSecondary,
+                                onClick: () => {
+                                    // Show the filter
+                                    filter.show();
+                                }
+                            },
+                        });
+                    }
+                },
+                {
                     // Create Dropdown
                     text: "Links",
                     isButton: true,
                     className: "btn btn-sm btn-outline-secondary ms-2",
-                    iconSize: 20,
+                    classNameItem: "bg-white",
+                    iconSize: 22,
                     iconType: link45deg,
                     items: [
                         {
@@ -226,26 +258,9 @@ export class App {
                                 window.location.href = Strings.Links.GetSupport.href;
                             }
                         }
-                    ],
-                    onRender: (el) => {
-                        el.classList.add("bg-white");
-                    }
+                    ]
                 }
             ]
         });
-
-        // Move the filter icon to sub-navbar
-        let btnFilter = document.querySelector("#" + Strings.AppElementId + " nav.navbar span.filter-icon");
-        if (!btnFilter) {
-            btnFilter = document.querySelector("div[data-sp-feature-tag='UnifiedFaqWebPart web part (Unified-FAQ)'] nav.navbar span.filter-icon");
-        }
-        if (btnFilter) {
-            let filterItem = document.createElement("li");
-            filterItem.className = "nav-item";
-            filterItem.appendChild(btnFilter);
-            let ul = subNav.el.querySelector("#navbar_content ul:last-child");
-            let li = ul.querySelector("li:last-child");
-            ul.insertBefore(filterItem, li);
-        }
     }
 }
