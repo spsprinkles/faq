@@ -31,7 +31,7 @@ const GlobalVariable = {
                         // Show the installation required modal
                         InstallationRequired.showDialog();
                     }
-                })
+                });
             });
     }
 }
