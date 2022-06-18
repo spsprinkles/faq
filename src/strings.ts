@@ -17,6 +17,6 @@ export default {
         }
     },
     SolutionUrl: "/siteassets/faq/index.html",
-    Version: "1.0.8",
+    Version: "1.0.9",
     WebSourceUrl: "/siteassets/faq/faq.min.js"
 }
