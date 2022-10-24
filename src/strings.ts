@@ -16,7 +16,7 @@ export default {
             text: "Get Support"
         }
     },
-    SolutionUrl: "/siteassets/faq/index.html",
+    SolutionUrl: "/dev/SiteAssets/faq-fed/index.html",
     Version: "1.0.9",
-    WebSourceUrl: "/siteassets/faq/faq.min.js"
+    WebSourceUrl: "/dev/SiteAssets/faq-fed/faq.js"
 }
