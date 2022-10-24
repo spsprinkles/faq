@@ -1,7 +1,7 @@
 {
   "name": "faq",
   "version": "1.0.9",
-  "description": "This is an FAQ for Unified Support",
+  "description": "This is an FAQ for Federal",
   "main": "src/index.ts",
   "scripts": {
     "all": "node ./clean.js && npm run build && npm run prod && npm run spfx",

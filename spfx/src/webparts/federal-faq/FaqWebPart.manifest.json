@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
   "id": "60bc2b67-3350-4354-93f5-0db3556e8483",
-  "alias": "UnifiedFaqWebPart",
+  "alias": "FederalFaqWebPart",
   "componentType": "WebPart",
   // The "*" signifies that the version should be taken from the package.json
   "version": "*",
@@ -20,10 +20,10 @@
         "default": "Other"
       },
       "title": {
-        "default": "Unified-FAQ"
+        "default": "Federal-FAQ"
       },
       "description": {
-        "default": "A frequently asked questions webpart for Unified Support."
+        "default": "A frequently asked questions webpart for Federal."
       },
       "officeFabricIconFontName": "Page",
       "iconImageUrl": "data:image/png;base64,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",

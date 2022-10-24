@@ -27,7 +27,7 @@ export const Configuration = Helper.SPConfig({
                 {
                     name: "Category",
                     title: "Category",
-                    defaultValue: "Unified Support",
+                    defaultValue: "Federal Support",
                     type: Helper.SPCfgFieldType.Choice,
                     required: true,
                     choices: [
@@ -46,7 +46,7 @@ export const Configuration = Helper.SPConfig({
                         "Security",
                         "Services Hub",
                         "Tasks and Planner",
-                        "Unified Support"
+                        "Federal Support"
                     ]
                 } as Helper.IFieldInfoChoice,
                 {

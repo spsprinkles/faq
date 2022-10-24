@@ -2,7 +2,7 @@ const path = require("path");
 const fs = require("fs");
 
 // Get to spfx package
-const srcFile = path.join(__dirname, "dist/unified-faq.sppkg");
+const srcFile = path.join(__dirname, "dist/federal-faq.sppkg");
 console.log(srcFile);
 
 // See if the destination file exists

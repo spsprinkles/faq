@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
-    "name": "UnifiedFAQ",
+    "name": "FederalFAQ",
     "id": "c6148fcf-e640-4129-b696-3ece635de701",
     "version": "0.0.0.9",
     "includeClientSideAssets": true,
@@ -17,6 +17,6 @@
     }
   },
   "paths": {
-    "zippedPackage": "../../dist/unified-faq.sppkg"
+    "zippedPackage": "../../dist/federal-faq.sppkg"
   }
 }

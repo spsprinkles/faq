@@ -1,15 +1,15 @@
 export default {
-    AppElementId: "unified-faq",
-    GlobalVariable: "UnifiedFAQ",
-    ProjectDescription: "This is an FAQ for Unified Support.",
-    ProjectName: "Unified Support FAQ",
+    AppElementId: "federal-faq",
+    GlobalVariable: "FederalFAQ",
+    ProjectDescription: "This is an FAQ for Federal.",
+    ProjectName: "Federal Support FAQ",
     Lists: {
-        FAQ: "UnifiedFAQ"
+        FAQ: "FederalFAQ"
     },
     Links: {
         Support: {
             href: "/SitePages/Support.aspx",
-            text: "Unified Support"
+            text: "Federal Support"
         },
         GetSupport: {
             href:"/SitePages/GetSupport.aspx",
