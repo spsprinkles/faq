@@ -14,7 +14,26 @@
       "privacyUrl": "",
       "termsOfUseUrl": "",
       "mpnId": ""
-    }
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "Description"
+      },
+      "longDescription": {
+        "default": "Description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "FAQ Feature",
+        "description": "The feature that activates elements of the FAQ solution.",
+        "id": "8bad0c83-e54f-4566-a18b-89b05f112dbb",
+        "version": "0.1.0.0"
+      }
+    ]
   },
   "paths": {
     "zippedPackage": "../../dist/faq-wp.sppkg"
