@@ -45,8 +45,12 @@ export class App {
                 el.querySelector("nav.footer .container-fluid").classList.add("p-0");
             },
             itemsEnd: [{
-                className: "pe-none text-dark",
-                text: "v" + Strings.Version
+                className: "pe-none text-body",
+                text: "v" + Strings.Version,
+                onRender: (el) => {
+                    // Hide version footer in a modern page
+                    Strings.IsClassic ? null : el.classList.add("d-none");
+                }
             }]
         });
     }
@@ -121,7 +125,7 @@ export class App {
         if (Security.IsAdmin || Security.IsFAQMgr) {
             itemsEnd.push(
                 {
-                    className: "btn-outline-light lh-1 me-2 pt-1",
+                    className: "btn-icon btn-outline-light me-2 p-2 py-1",
                     text: "Settings",
                     iconSize: 22,
                     iconType: gearWideConnected,
@@ -141,19 +145,21 @@ export class App {
 
         // Add Admin only items
         if (Security.IsAdmin) {
+            itemsEnd[0].items.unshift(
+                {
+                    text: "App Settings",
+                    onClick: () => {
+                        // Show the install modal
+                        InstallationModal.show(true);
+                    }
+                }
+            );
             itemsEnd[0].items.push(
                 {
                     text: "Manage Security",
                     onClick: () => {
                         // Show the settings in a new tab
                         window.open(Strings.SourceUrl + "/_layouts/15/people.aspx?MembershipGroupId=" + Security.FAQMgrGroup.Id);
-                    }
-                },
-                {
-                    text: "Manage Solution",
-                    onClick: () => {
-                        // Show the install modal
-                        InstallationModal.show(true);
                     }
                 }
             );
@@ -166,7 +172,7 @@ export class App {
             title: Strings.ProjectName,
             onRendering: props => {
                 // Update the navigation properties
-                props.className = "bg-sharepoint navbar-expand-sm rounded-top";
+                props.className = "navbar-expand rounded-top";
                 props.type = Components.NavbarTypes.Primary;
                 
                 // Add a logo to the navbar brand
