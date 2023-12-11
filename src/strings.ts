@@ -21,7 +21,7 @@ const Strings = {
     Lists: {
         FAQ: "FAQ"
     },
-    ProjectDescription: "This is an faq app.",
+    ProjectDescription: "This is a frequently asked questions webpart",
     ProjectName: "FAQ",
     SecurityGroups: {
         FAQMgr: {
