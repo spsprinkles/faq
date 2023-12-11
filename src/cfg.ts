@@ -1,4 +1,5 @@
 import { Helper, SPTypes } from "gd-sprest-bs";
+import { Security } from "./security";
 import Strings from "./strings";
 
 /**
@@ -17,6 +18,7 @@ export const Configuration = Helper.SPConfig({
                     FieldRefs: [
                         "Category",
                         "Title",
+                        "Alerted",
                         "Answer",
                         "Approved"
                     ]
@@ -28,6 +30,7 @@ export const Configuration = Helper.SPConfig({
                     name: "Category",
                     title: "Category",
                     type: Helper.SPCfgFieldType.Choice,
+                    multi: true,
                     required: true,
                     choices: [
                         "Applications",
@@ -43,7 +46,15 @@ export const Configuration = Helper.SPConfig({
                         "Tasks and Planner",
                         "Top Questions"
                     ]
-                } as Helper.IFieldInfoChoice,
+                } as Helper.IFieldInfoNote,
+                {
+                    name: "Alerted",
+                    title: "Alerted",
+                    type: Helper.SPCfgFieldType.Boolean,
+                    showInNewForm: false,
+                    showInEditForm: false,
+                    defaultValue: "0"
+                }as Helper.IFieldInfoChoice,
                 {
                     name: "Answer",
                     title: "Answer",
@@ -55,7 +66,7 @@ export const Configuration = Helper.SPConfig({
                     title: "Approved",
                     type: Helper.SPCfgFieldType.Boolean,
                     defaultValue: "0"
-                }
+                } 
             ],
             ViewInformation: [
                 {
@@ -72,3 +83,8 @@ export const Configuration = Helper.SPConfig({
         }
     ]
 });
+
+// Creates the manager security group
+Configuration["createSecurityGroups"] = () => {
+    Security.create();
+}

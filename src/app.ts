@@ -1,6 +1,12 @@
 import { FilterSlideout, Footer, ItemForm, Navigation } from "dattatable";
-import { Components } from "gd-sprest-bs";
+import { Components, Utility, ContextInfo } from "gd-sprest-bs";
+import { filterSquare } from "gd-sprest-bs/build/icons/svgs/filterSquare";
+import { gearWideConnected } from "gd-sprest-bs/build/icons/svgs/gearWideConnected";
+import { questionCircleFill } from "gd-sprest-bs/build/icons/svgs/questionCircleFill";
+import { questionSquare } from "gd-sprest-bs/build/icons/svgs/questionSquare";
 import { DataSource } from "./ds";
+import { InstallationModal } from "./install";
+import { Security } from "./security";
 import Strings from "./strings";
 
 /**
@@ -12,8 +18,11 @@ export class App {
         // Set the list name
         ItemForm.ListName = Strings.Lists.FAQ;
 
-        // Render the dashboard
-        this.render(el);
+        // Initialize the application
+        DataSource.init().then(() => {
+            // Render the dashboard
+            this.render(el);
+        });
     }
 
     // Renders the dashboard
@@ -29,10 +38,15 @@ export class App {
             el,
             onRendering: props => {
                 // Update the properties
-                props.className = "navbar-expand-sm";
+                props.className = "footer p-0";
+            },
+            onRendered: (el) => {
+                el.querySelector("nav.footer").classList.remove("bg-light");
+                el.querySelector("nav.footer .container-fluid").classList.add("p-0");
             },
             itemsEnd: [{
-                text: Strings.Version
+                className: "pe-none text-dark",
+                text: "v" + Strings.Version
             }]
         });
     }
@@ -42,14 +56,23 @@ export class App {
         // Parse the items
         let accordionItems: Array<Components.IAccordionItem> = [];
         for (let i = 0; i < DataSource.Items.length; i++) {
-            var item = DataSource.Items[i];
-            let category = (item.Category || "").toLowerCase().replace(/ /g, '-');
+            let item = DataSource.Items[i];
+            let itemClassNames = [];
+
+            // Parse the selected categories
+            let categories = item.Category ? item.Category.results : [];
+            for (let j = 0; j < categories.length; j++) {
+                let category = categories[j].toLowerCase().replace(/ /g, '-');
+
+                // Set the category
+                if (category) { itemClassNames.push(category); }
+            }
 
             // Add an accordion item
             accordionItems.push({
                 showFl: i == 0,
                 header: item["Title"] || "",
-                className: category,
+                className: itemClassNames.join(" "),
                 content: item["Answer"] || ""
             });
         }
@@ -93,18 +116,71 @@ export class App {
             }]
         });
 
+        // Create the settings menu items
+        let itemsEnd: Components.INavbarItem[] = [];
+        if (Security.IsAdmin || Security.IsFAQMgr) {
+            itemsEnd.push(
+                {
+                    className: "btn-outline-light lh-1 me-2 pt-1",
+                    text: "Settings",
+                    iconSize: 22,
+                    iconType: gearWideConnected,
+                    isButton: true,
+                    items: [
+                        {
+                            text: "Manage FAQs",
+                            onClick: () => {
+                                // Show the FAQ list in a new tab
+                                window.open(Strings.SourceUrl + "/Lists/" + Strings.Lists.FAQ, "_blank");
+                            }
+                        }
+                    ]
+                }
+            );
+        }
+
+        // Add Admin only items
+        if (Security.IsAdmin) {
+            itemsEnd[0].items.push(
+                {
+                    text: "Manage Security",
+                    onClick: () => {
+                        // Show the settings in a new tab
+                        window.open(Strings.SourceUrl + "/_layouts/15/people.aspx?MembershipGroupId=" + Security.FAQMgrGroup.Id);
+                    }
+                },
+                {
+                    text: "Manage Solution",
+                    onClick: () => {
+                        // Show the install modal
+                        InstallationModal.show(true);
+                    }
+                }
+            );
+        }
+
         // Render the navigation
         new Navigation({
             el,
+            hideFilter: true,
             title: Strings.ProjectName,
             onRendering: props => {
                 // Update the navigation properties
-                props.className = "navbar-expand-sm";
+                props.className = "bg-sharepoint navbar-expand-sm rounded-top";
                 props.type = Components.NavbarTypes.Primary;
+                
+                // Add a logo to the navbar brand
+                let div = document.createElement("div");
+                let text = div.cloneNode() as HTMLDivElement;
+                div.className = "d-flex me-2";
+                text.className = "ms-2";
+                text.append(Strings.ProjectName);
+                div.appendChild(questionCircleFill());
+                div.appendChild(text);
+                props.brand = div;
             },
-            onShowFilter: () => {
-                // Show the filter
-                filter.show();
+            onRendered: (el) => {
+                el.querySelector("a.navbar-brand").classList.add("pe-none");
             },
             onSearch: value => {
                 // Remove the spaces from the value
@@ -130,28 +206,116 @@ export class App {
                     }
                 }
             },
-            items: [
+            onSearchRendered: (el) => {
+                el.setAttribute("placeholder", "Search all FAQ's");
+            },
+            itemsEnd
+        });
+
+        // Render the sub-navigation
+        Components.Navbar({
+            el,
+            className: "navbar-sub rounded-bottom",
+            type: Components.NavbarTypes.Light,
+            itemsEnd: [
                 {
-                    className: "btn-outline-light",
-                    text: "Submit a Question",
-                    isButton: true,
-                    onClick: () => {
-                        // Create an item
-                        ItemForm.create({
-                            onCreateEditForm: props => {
-                                // Update the fields to display
-                                props.excludeFields = ["Answer", "Approved"];
+                    text: "Ask a Question",
+                    onRender: (el, item) => {
+                        // Clear the existing button
+                        el.innerHTML = "";
+                        // Create a span to wrap the icon in
+                        let span = document.createElement("span");
+                        span.className = "bg-white d-inline-flex ms-2 rounded";
+                        el.appendChild(span);
 
-                                // Return the properties
-                                return props;
+                        // Render a tooltip
+                        Components.Tooltip({
+                            el: span,
+                            content: item.text,
+                            placement: Components.TooltipPlacements.Left,
+                            btnProps: {
+                                // Render the icon button
+                                className: "p-1 pe-2",
+                                iconClassName: "me-1",
+                                iconType: questionSquare,
+                                iconSize: 24,
+                                isSmall: true,
+                                text: "Questions",
+                                type: Components.ButtonTypes.OutlineSecondary,
+                                onClick: () => {
+                                    // Create an item
+                                    ItemForm.create({
+                                        onCreateEditForm: props => {
+                                            // Update the fields to display
+                                            props.excludeFields = ["Answer", "Approved"];
+
+                                            // Return the properties
+                                            return props;
+                                        },
+                                        onFormButtonsRendering: buttons => {
+                                            // Update the create button
+                                            buttons[0].text = "Submit";
+
+                                            // Return the buttons
+                                            return buttons;
+                                        },
+                                        onSave: (props) => {
+                                            let categories = props.Category.results;
+                                            // See if item is created
+                                            Utility().sendEmail({
+                                                To: Security.ManagerEmails,
+                                                Subject: "New FAQ Request",
+                                                Body: [
+                                                    "<p>FAQ Managers,</p>",
+                                                    "\t<p>" + ContextInfo.userDisplayName + " has created a new FAQ request.<br />",
+                                                    "<b>Category(ies):</b> " + categories + "<br />",
+                                                    "<b>Question:</b> " + props.Title + "<br />",
+                                                    "<a href=\"" + ContextInfo.webAbsoluteUrl + "/Lists/" + Strings.Lists.FAQ + "\">Click here</a> to view the request.</p>",
+                                                    "<p>Thank you,</p>",
+                                                    "<p>FAQ Managers</p>"
+                                                ].join('\n<br/>\n')
+                                            }).execute();
+                                            // Return the properties
+                                            return props;
+                                        },
+                                        onSetHeader: el => {
+                                            el.querySelector("h5").innerText = item.text;
+                                        }
+                                    });
+                                }
                             },
-                            onFormButtonsRendering: buttons => {
-                                // Update the create button
-                                buttons[0].text = "Submit";
+                        });
+                    }
+                },
+                {
+                    text: "Filter the FAQ's",
+                    onRender: (el, item) => {
+                        // Clear the existing button
+                        el.innerHTML = "";
+                        // Create a span to wrap the icon in
+                        let span = document.createElement("span");
+                        span.className = "bg-white d-inline-flex ms-2 rounded";
+                        el.appendChild(span);
 
-                                // Return the buttons
-                                return buttons;
-                            }
+                        // Render a tooltip
+                        Components.Tooltip({
+                            el: span,
+                            content: item.text,
+                            placement: Components.TooltipPlacements.Right,
+                            btnProps: {
+                                // Render the icon button
+                                className: "p-1 pe-2",
+                                iconClassName: "me-1",
+                                iconType: filterSquare,
+                                iconSize: 24,
+                                isSmall: true,
+                                text: "Filters",
+                                type: Components.ButtonTypes.OutlineSecondary,
+                                onClick: () => {
+                                    // Show the filter
+                                    filter.show();
+                                }
+                            },
                         });
                     }
                 }
