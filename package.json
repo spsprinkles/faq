@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://dev.azure.com/gudatta/Datta%20Framework/_git/faq"
   },
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "datatables.net": "^1.13.8",
     "datatables.net-bs5": "^1.13.8",
