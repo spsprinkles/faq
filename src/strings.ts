@@ -1,5 +1,5 @@
 export default {
-    AppElementId: "datta-faq",
+    AppElementId: "faq-wp",
     GlobalVariable: "DattaFAQ",
     ProjectDescription: "This is a basic faq.",
     ProjectName: "FAQ",
