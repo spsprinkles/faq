@@ -2,11 +2,12 @@ import { ContextInfo, SPTypes } from "gd-sprest-bs";
 
 // Sets the context information
 // This is for SPFx or Teams solutions
-export const setContext = (context, sourceUrl?: string) => {
+export const setContext = (context, envType?: number, sourceUrl?: string) => {
     // Set the context
     ContextInfo.setPageContext(context.pageContext);
 
     // Update the properties
+    Strings.IsClassic = envType == SPTypes.EnvironmentType.ClassicSharePoint;
     Strings.SourceUrl = sourceUrl || ContextInfo.webServerRelativeUrl;
 }
 
