@@ -22,7 +22,7 @@ const GlobalVariable = {
             // Error
             () => {
                 // Determine if an install is required
-                InstallationRequired.requiresInstall(Configuration).then(requiresInstall => {
+                InstallationRequired.requiresInstall({cfg: Configuration}).then(requiresInstall => {
                     // See if an install is required
                     if (requiresInstall) {
                         // Show the installation required modal
