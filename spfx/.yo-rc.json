@@ -2,7 +2,7 @@
   "@microsoft/generator-sharepoint": {
     "isCreatingSolution": true,
     "environment": "spo",
-    "version": "1.12.1",
+    "version": "1.17.4",
     "libraryName": "faq",
     "libraryId": "3b72a629-97f4-488c-ad35-55abe0c5aac3",
     "packageManager": "npm",
