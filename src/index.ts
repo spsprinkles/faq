@@ -1,42 +1,83 @@
-import { InstallationRequired } from "dattatable";
-import { ContextInfo } from "gd-sprest-bs";
+import { LoadingDialog, waitForTheme } from "dattatable";
+import { ContextInfo, ThemeManager } from "gd-sprest-bs";
 import { App } from "./app";
 import { Configuration } from "./cfg";
 import { DataSource } from "./ds";
-import Strings from "./strings";
+import { InstallationModal } from "./install";
+import Strings, { setContext } from "./strings";
+
+// Styling
+import "./styles.scss";
+
+// Properties
+interface IProps {
+    el: HTMLElement;
+    context?: any;
+    displayMode?: number;
+    envType?: number;
+    sourceUrl?: string;
+}
 
 // Create the global variable for this solution
 const GlobalVariable = {
+    App: null,
     Configuration,
-    render: (el, context?) => {
+    description: Strings.ProjectDescription,
+    render: (props: IProps) => {
+        // Show a loading dialog
+        LoadingDialog.setHeader("Loading FAQ App");
+        LoadingDialog.setBody("This may take time based on the number of FAQ's...");
+        LoadingDialog.show();
+
         // Set the page context if it exists
-        if (context) { ContextInfo.setPageContext(context); }
+        if (props.context) {
+            // Set the context
+            setContext(props.context, props.envType, props.sourceUrl);
+
+            // Update the configuration
+            Configuration.setWebUrl(props.sourceUrl || ContextInfo.webServerRelativeUrl);
+        }
 
         // Initialize the application
         DataSource.init().then(
             // Success
             () => {
-                // Render the app
-                new App(el);
+                // Update the loading dialog
+                LoadingDialog.setHeader("Loading Theme");
+
+                // Wait for the theme to be loaded
+                waitForTheme().then(() => {
+                    // Create the application
+                    GlobalVariable.App = new App(props.el);
+                    
+                    // Hide the loading dialog
+                    LoadingDialog.hide();
+                });
             },
             // Error
             () => {
-                // Determine if an install is required
-                InstallationRequired.requiresInstall(Configuration).then(requiresInstall => {
-                    // See if an install is required
-                    if (requiresInstall) {
-                        // Show the installation required modal
-                        InstallationRequired.showDialog();
-                    }
-                })
+                // Show the installation modal
+                InstallationModal.show();
+
+                // Hide the loading dialog
+                LoadingDialog.hide();
             });
-    }
+    },
+    updateTheme: (themeInfo) => {
+        // Set the theme
+        ThemeManager.setCurrentTheme(themeInfo);
+    },
+    version: Strings.Version
 }
 window[Strings.GlobalVariable] = GlobalVariable;
 
 // Get the element and render the app if it is found
 let elApp = document.querySelector("#" + Strings.AppElementId) as HTMLElement;
 if (elApp) {
+    // Remove the extra border spacing on the webpart
+    let contentBox = document.querySelector("#contentBox table.ms-core-tableNoSpace");
+    contentBox ? contentBox.classList.remove("ms-webpartPage-root") : null;
+    
     // Render the application
-    GlobalVariable.render(elApp);
+    GlobalVariable.render({ el: elApp });
 }

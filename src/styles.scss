@@ -1,0 +1,22 @@
+/** Custom Styles Go Here */
+/* Fix icon alignment inside nav item buttons */
+#navbar_content ul.navbar-nav li.nav-item a.btn svg {
+    margin: 0.1rem 0.25rem 0.1rem -0.25rem;
+}
+
+/* Set styling for navbar-sub */
+.navbar-sub {
+    background-color: color-mix(in srgb, var(--sp-black, #000000), transparent 95%);
+    border: 3px solid var(--sp-neutral-quaternary);
+    border-top: 0;
+    border-radius: 0 0 0.25rem 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
+/* Apply changes to the Settings Panel */
+div.spPropertyPaneContainer div[aria-label='FAQ property pane'] div[data-automation-id='propertyPaneGroupContent'] {
+    /* Align version to the right */
+    >div:last-child label {
+        text-align: right;
+    }
+}

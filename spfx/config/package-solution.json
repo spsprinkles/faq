@@ -2,8 +2,8 @@
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
     "name": "FAQ",
-    "id": "3b72a629-97f4-488c-ad35-55abe0c5aac3",
-    "version": "0.1.0.7",
+    "id": "67c49308-4a2a-4dac-8382-eb3b8c5a6478",
+    "version": "0.1.1.0",
     "includeClientSideAssets": true,
     "isDomainIsolated": false,
     "skipFeatureDeployment": true,
@@ -14,9 +14,28 @@
       "privacyUrl": "",
       "termsOfUseUrl": "",
       "mpnId": ""
-    }
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "A frequently asked questions webpart"
+      },
+      "longDescription": {
+        "default": "A frequently asked questions webpart"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "FAQ Feature",
+        "description": "The feature that activates elements of the FAQ solution.",
+        "id": "8bad0c83-e54f-4566-a18b-89b05f112dbb",
+        "version": "0.1.0.0"
+      }
+    ]
   },
   "paths": {
-    "zippedPackage": "../../dist/faq-wp.sppkg"
+    "zippedPackage": "../../dist/faq.sppkg"
   }
 }

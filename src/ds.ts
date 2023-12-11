@@ -1,11 +1,13 @@
 import { Components, List, Types } from "gd-sprest-bs";
+import { Security } from "./security";
 import Strings from "./strings";
 
 // Item
 export interface IItem extends Types.SP.ListItem {
+    Alerted: boolean;
     Answer: string;
     Approved: boolean;
-    Category: string;
+    Category?: { results: string[] };
 }
 
 /**
@@ -14,19 +16,26 @@ export interface IItem extends Types.SP.ListItem {
 export class DataSource {
     // Category Filters
     static get CategoryFilters(): Components.ICheckboxGroupItem[] {
-        let categories = {};
+        let uniqueCategories = {};
         let items: Components.ICheckboxGroupItem[] = [];
 
         // Parse the items
         for (let i = 0; i < this.Items.length; i++) {
-            // Set the category
-            let category = this.Items[i].Category;
-            if (category) { categories[category] = true; }
+            let item = this.Items[i];
+
+            // Parse the selected categores
+            let categories = item.Category ? item.Category.results : [];
+            for (let j = 0; j < categories.length; j++) {
+                let category = categories[j];
+
+                // Set the category
+                if (category) { uniqueCategories[category] = true; }
+            }
         }
 
-        // Parse the categories and get the unique names
+        // Parse the unique categories and get the unique names
         let categoryNames = [];
-        for (let name in categories) { categoryNames.push(name); }
+        for (let name in uniqueCategories) { categoryNames.push(name); }
 
         // Parse the sorted items
         categoryNames = categoryNames.sort();
@@ -43,14 +52,15 @@ export class DataSource {
     }
 
     // Initializes the application
-    static init(): PromiseLike<void> {
+    static init(): PromiseLike<any> {
         // Return a promise
         return new Promise((resolve, reject) => {
-            // Load the data
-            this.load().then(() => {
-                // Resolve the request
-                resolve();
-            }, reject);
+            return Promise.all([
+                // Load the security
+                Security.init(),
+                // Load the data
+                this.load()
+            ]).then(resolve, reject);
         });
     }
 
@@ -73,6 +83,58 @@ export class DataSource {
 
                     // Resolve the request
                     resolve();
+                },
+
+                // Error
+                reject
+            );
+        });
+    }
+
+    // Load Request
+    private static _request: IItem = null;
+    static loadRequest(itemId: number): PromiseLike<IItem> {
+        // Return a promise
+        return new Promise((resolve, reject) => {
+            // Load the data
+            List(Strings.Lists.FAQ).Items(itemId).query({
+                Expand: ["Author", "Base"],
+                Select: ["*", "Author/EMail", "Author/Title", "Base/Title"]
+            }).execute(
+                // Success
+                item => {
+                    // Set the requests
+                    this._request = item as any;
+                    // Resolve the request
+                    resolve(this._request);
+                },
+                // Error
+                reject
+            );
+        });
+    }
+
+    // Requests
+    private static _requests: Array<IItem> = null;
+    static get Requests(): Array<IItem> { return this._requests; }
+    static loadRequests(): PromiseLike<Array<IItem>> {
+        // Return a promise
+        return new Promise((resolve, reject) => {
+            // Load the data
+            List(Strings.Lists.FAQ).Items().query({
+                Expand: ["Author", "Base"],
+                GetAllItems: true,
+                OrderBy: ["Title"],
+                Select: ["*", "Author/EMail", "Author/Title", "Base/Title"],
+                Top: 5000
+            }).execute(
+                // Success
+                items => {
+                    // Set the requests
+                    this._requests = items.results as any;
+
+                    // Resolve the request
+                    resolve(this._requests);
                 },
 
                 // Error
