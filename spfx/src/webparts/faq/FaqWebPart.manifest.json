@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
-  "id": "563190bc-adbe-4431-94e3-0553e07c0739",
+  "id": "4b4b8f74-173a-45e9-a36a-1c1c067f085f",
   "alias": "FaqWebPart",
   "componentType": "WebPart",
   // The "*" signifies that the version should be taken from the package.json
