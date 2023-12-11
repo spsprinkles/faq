@@ -1,0 +1,8 @@
+/** Custom Styles Go Here */
+/* Apply changes to the Settings Panel */
+div.spPropertyPaneContainer div[aria-label='FAQ property pane'] div[data-automation-id='propertyPaneGroupContent'] {
+    /* Align version to the right */
+    >div:last-child label {
+        text-align: right;
+    }
+}

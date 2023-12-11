@@ -6,6 +6,9 @@ import { DataSource } from "./ds";
 import { InstallationModal } from "./install";
 import Strings, { setContext } from "./strings";
 
+// Styling
+import "./styles.scss";
+
 // Properties
 interface IProps {
     el: HTMLElement;
