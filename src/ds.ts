@@ -1,4 +1,5 @@
-import { Components, List, Types } from "gd-sprest-bs";
+import { List } from "dattatable";
+import { Components, Types } from "gd-sprest-bs";
 import { Security } from "./security";
 import Strings from "./strings";
 
@@ -15,41 +16,8 @@ export interface IItem extends Types.SP.ListItem {
  */
 export class DataSource {
     // Category Filters
-    static get CategoryFilters(): Components.ICheckboxGroupItem[] {
-        let uniqueCategories = {};
-        let items: Components.ICheckboxGroupItem[] = [];
-
-        // Parse the items
-        for (let i = 0; i < this.Items.length; i++) {
-            let item = this.Items[i];
-
-            // Parse the selected categores
-            let categories = item.Category ? item.Category.results : [];
-            for (let j = 0; j < categories.length; j++) {
-                let category = categories[j];
-
-                // Set the category
-                if (category) { uniqueCategories[category] = true; }
-            }
-        }
-
-        // Parse the unique categories and get the unique names
-        let categoryNames = [];
-        for (let name in uniqueCategories) { categoryNames.push(name); }
-
-        // Parse the sorted items
-        categoryNames = categoryNames.sort();
-        for (let i = 0; i < categoryNames.length; i++) {
-            // Add an item
-            items.push({
-                label: categoryNames[i],
-                type: Components.CheckboxGroupTypes.Switch
-            });
-        }
-
-        // Return the items
-        return items;
-    }
+    private static _categoryFilters: Components.ICheckboxGroupItem[] = null;
+    static get CategoryFilters(): Components.ICheckboxGroupItem[] { return this._categoryFilters; }
 
     // Initializes the application
     static init(): PromiseLike<any> {
@@ -65,81 +33,56 @@ export class DataSource {
     }
 
     // Loads the list data
-    private static _items: Array<IItem> = null;
-    static get Items(): Array<IItem> { return this._items; }
+    private static _faqList: List<IItem> = null;
+    static get FaqList(): List<IItem> { return this._faqList; }
     static load(): PromiseLike<void> {
         // Return a promise
         return new Promise((resolve, reject) => {
-            // Load the data
-            List(Strings.Lists.FAQ).Items().query({
-                Filter: "Approved eq 1",
-                OrderBy: ["Title"],
-                Top: 1000
-            }).execute(
-                // Success
-                items => {
-                    // Set the items
-                    this._items = items.results as any;
-
-                    // Resolve the request
-                    resolve();
+            // Load the list
+            this._faqList = new List({
+                listName: Strings.Lists.FAQ,
+                webUrl: Strings.SourceUrl,
+                itemQuery: {
+                    Filter: "Approved eq 1",
+                    OrderBy: ["Title"],
+                    Top: 1000
                 },
+                onInitError: reject,
+                onInitialized: () => {
+                    let uniqueCategories = {};
 
-                // Error
-                reject
-            );
-        });
-    }
+                    // Clear the filter items
+                    this._categoryFilters = [];
 
-    // Load Request
-    private static _request: IItem = null;
-    static loadRequest(itemId: number): PromiseLike<IItem> {
-        // Return a promise
-        return new Promise((resolve, reject) => {
-            // Load the data
-            List(Strings.Lists.FAQ).Items(itemId).query({
-                Expand: ["Author", "Base"],
-                Select: ["*", "Author/EMail", "Author/Title", "Base/Title"]
-            }).execute(
-                // Success
-                item => {
-                    // Set the requests
-                    this._request = item as any;
-                    // Resolve the request
-                    resolve(this._request);
-                },
-                // Error
-                reject
-            );
-        });
-    }
+                    // Parse the items
+                    for (let i = 0; i < this.FaqList.Items.length; i++) {
+                        let item = this.FaqList.Items[i];
 
-    // Requests
-    private static _requests: Array<IItem> = null;
-    static get Requests(): Array<IItem> { return this._requests; }
-    static loadRequests(): PromiseLike<Array<IItem>> {
-        // Return a promise
-        return new Promise((resolve, reject) => {
-            // Load the data
-            List(Strings.Lists.FAQ).Items().query({
-                Expand: ["Author", "Base"],
-                GetAllItems: true,
-                OrderBy: ["Title"],
-                Select: ["*", "Author/EMail", "Author/Title", "Base/Title"],
-                Top: 5000
-            }).execute(
-                // Success
-                items => {
-                    // Set the requests
-                    this._requests = items.results as any;
+                        // Parse the selected categores
+                        let categories = item.Category ? item.Category.results : [];
+                        for (let j = 0; j < categories.length; j++) {
+                            let category = categories[j];
 
-                    // Resolve the request
-                    resolve(this._requests);
-                },
+                            // Set the category
+                            if (category) { uniqueCategories[category] = true; }
+                        }
+                    }
 
-                // Error
-                reject
-            );
+                    // Parse the unique categories and get the unique names
+                    let categoryNames = [];
+                    for (let name in uniqueCategories) { categoryNames.push(name); }
+
+                    // Parse the sorted items
+                    categoryNames = categoryNames.sort();
+                    for (let i = 0; i < categoryNames.length; i++) {
+                        // Add an item
+                        this._categoryFilters.push({
+                            label: categoryNames[i],
+                            type: Components.CheckboxGroupTypes.Switch
+                        });
+                    }
+                }
+            });
         });
     }
 }

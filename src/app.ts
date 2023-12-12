@@ -89,8 +89,8 @@ export class App {
     private renderAccordion(el: HTMLElement) {
         // Parse the items
         let accordionItems: Array<Components.IAccordionItem> = [];
-        for (let i = 0; i < DataSource.Items.length; i++) {
-            let item = DataSource.Items[i];
+        for (let i = 0; i < DataSource.FaqList.Items.length; i++) {
+            let item = DataSource.FaqList.Items[i];
             let itemClassNames = [];
 
             // Parse the selected categories
@@ -204,7 +204,7 @@ export class App {
                 // Update the navigation properties
                 props.className = "navbar-expand rounded-top";
                 props.type = Components.NavbarTypes.Primary;
-                
+
                 // Add a logo to the navbar brand
                 let div = document.createElement("div");
                 let text = div.cloneNode() as HTMLDivElement;
@@ -280,7 +280,7 @@ export class App {
                                 type: Components.ButtonTypes.OutlineSecondary,
                                 onClick: () => {
                                     // Create an item
-                                    ItemForm.create({
+                                    DataSource.FaqList.newForm({
                                         onCreateEditForm: props => {
                                             // Update the fields to display
                                             props.excludeFields = ["Answer", "Approved"];
@@ -295,8 +295,12 @@ export class App {
                                             // Return the buttons
                                             return buttons;
                                         },
+                                        onSetHeader: el => {
+                                            el.querySelector("h5").innerText = item.text;
+                                        },
                                         onSave: (props) => {
                                             let categories = props.Category.results;
+
                                             // See if item is created
                                             Utility().sendEmail({
                                                 To: Security.ManagerEmails,
@@ -311,11 +315,9 @@ export class App {
                                                     "<p>FAQ Managers</p>"
                                                 ].join('\n<br/>\n')
                                             }).execute();
+
                                             // Return the properties
                                             return props;
-                                        },
-                                        onSetHeader: el => {
-                                            el.querySelector("h5").innerText = item.text;
                                         }
                                     });
                                 }
