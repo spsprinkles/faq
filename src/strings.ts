@@ -24,9 +24,9 @@ const Strings = {
     ProjectDescription: "This is a frequently asked questions webpart",
     ProjectName: "FAQ",
     SecurityGroups: {
-        FAQMgr: {
-            Description: "The FAQ managers.",
-            Name: "FAQ Managers"
+        Managers: {
+            Name: "FAQ Managers",
+            Description: "The FAQ managers."
         }
     },
     SourceUrl: ContextInfo.webServerRelativeUrl,

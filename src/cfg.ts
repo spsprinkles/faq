@@ -1,5 +1,4 @@
 import { Helper, SPTypes } from "gd-sprest-bs";
-import { Security } from "./security";
 import Strings from "./strings";
 
 /**
@@ -83,8 +82,3 @@ export const Configuration = Helper.SPConfig({
         }
     ]
 });
-
-// Creates the manager security group
-Configuration["createSecurityGroups"] = () => {
-    Security.create();
-}
