@@ -1,4 +1,4 @@
-import { InstallationRequired, LoadingDialog } from "dattatable";
+import { InstallationRequired } from "dattatable";
 import { Components } from "gd-sprest-bs";
 import { Configuration } from "./cfg";
 import { Security } from "./security";
@@ -11,7 +11,7 @@ export class InstallationModal {
     // Shows the modal
     static show(showFl: boolean = false) {
         // See if an installation is required
-        InstallationRequired.requiresInstall({cfg: Configuration}).then(installFl => {
+        InstallationRequired.requiresInstall({ cfg: Configuration }).then(installFl => {
             let customErrors: Components.IListGroupItem[] = [];
 
             // See if the security groups exist
@@ -44,16 +44,8 @@ export class InstallationModal {
                                     text: "Security",
                                     isDisabled: !InstallationRequired.ListsExist,
                                     onClick: () => {
-                                        // Show a loading dialog
-                                        LoadingDialog.setHeader("Security Groups");
-                                        LoadingDialog.setBody("Creating the security groups. This dialog will close after it completes.");
-                                        LoadingDialog.show();
-
-                                        // Create the security groups
-                                        Security.create().then(() => {
-                                            // Close the dialog
-                                            LoadingDialog.hide();
-
+                                        // Show the security dialog
+                                        Security.show(() => {
                                             // Refresh the page
                                             window.location.reload();
                                         });
