@@ -325,7 +325,10 @@ export class App {
                         });
                     }
                 }
-            ]
+            ],
+            onRendered: (el) => {
+                el.classList.remove("bg-light");
+            }
         });
     }
 }

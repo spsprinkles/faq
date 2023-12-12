@@ -1,4 +1,8 @@
 /** Custom Styles Go Here */
+.bs .accordion-button.collapsed {
+    background-color: color-mix(in srgb, var(--sp-black, #000000), transparent 95%);
+}
+
 /* Fix icon alignment inside nav item buttons */
 #navbar_content ul.navbar-nav li.nav-item a.btn svg {
     margin: 0.1rem 0.25rem 0.1rem -0.25rem;
