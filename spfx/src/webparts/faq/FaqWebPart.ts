@@ -24,7 +24,15 @@ declare const FaqApp: {
 };
 
 export default class FaqWebPart extends BaseClientSideWebPart<IFaqWebPartProps> {
+  private _hasRendered: boolean = false;
+
   public render(): void {
+    // See if have rendered the solution
+    if (this._hasRendered) {
+      // Clear the element
+      while (this.domElement.firstChild) { this.domElement.removeChild(this.domElement.firstChild); }
+    }
+
     // Render the application
     FaqApp.render({
       el: this.domElement,
@@ -32,6 +40,9 @@ export default class FaqWebPart extends BaseClientSideWebPart<IFaqWebPartProps> 
       displayMode: this.displayMode,
       envType: Environment.type
     });
+
+    // Set the flag
+    this._hasRendered = true;
   }
 
   protected onThemeChanged(currentTheme: IReadonlyTheme | undefined): void {
