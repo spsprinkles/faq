@@ -186,23 +186,26 @@ export class App {
             );
             itemsEnd[0].items.push(
                 {
-                    text: "Manage Owners",
-                    onClick: () => {
-                        // Show the settings in a new tab
-                        window.open(`${Security.SecurityGroupUrl}${Security.AdminGroup.Id}`);
-                    }
-                }
-            );
-            itemsEnd[0].items.push(
-                {
                     text: "Manage Managers",
                     onClick: () => {
                         // Show the settings in a new tab
                         window.open(`${Security.SecurityGroupUrl}${Security.FAQMgrGroup.Id}`);
                     }
-                }
-            );
-            itemsEnd[0].items.push(
+                },
+                {
+                    text: "Manage Members",
+                    onClick: () => {
+                        // Show the settings in a new tab
+                        window.open(`${Security.SecurityGroupUrl}${Security.MemberGroup.Id}`);
+                    }
+                },
+                {
+                    text: "Manage Owners",
+                    onClick: () => {
+                        // Show the settings in a new tab
+                        window.open(`${Security.SecurityGroupUrl}${Security.AdminGroup.Id}`);
+                    }
+                },
                 {
                     text: "Manage Visitors",
                     onClick: () => {
