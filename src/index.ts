@@ -26,7 +26,7 @@ const GlobalVariable = {
     render: (props: IProps) => {
         // Show a loading dialog
         LoadingDialog.setHeader("Loading FAQ App");
-        LoadingDialog.setBody("This may take time based on the number of FAQ's...");
+        LoadingDialog.setBody("This may take some time based on the number of FAQ's...");
         LoadingDialog.show();
 
         // Set the page context if it exists
