@@ -45,6 +45,7 @@ export class Security {
         return new Promise((resolve, reject) => {
             this._listSecurity = new ListSecurity({
                 groups: [this._faqMgrGroupInfo],
+                webUrl: Strings.SourceUrl,
                 listItems: [
                     {
                         listName: Strings.Lists.FAQ,
