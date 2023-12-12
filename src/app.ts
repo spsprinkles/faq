@@ -2,7 +2,6 @@ import { FilterSlideout, Footer, ItemForm, Navigation } from "dattatable";
 import { Components, Utility, ContextInfo } from "gd-sprest-bs";
 import { filterSquare } from "gd-sprest-bs/build/icons/svgs/filterSquare";
 import { gearWideConnected } from "gd-sprest-bs/build/icons/svgs/gearWideConnected";
-import { questionCircleFill } from "gd-sprest-bs/build/icons/svgs/questionCircleFill";
 import { questionSquare } from "gd-sprest-bs/build/icons/svgs/questionSquare";
 import { DataSource } from "./ds";
 import { InstallationModal } from "./install";
@@ -23,6 +22,40 @@ export class App {
             // Render the dashboard
             this.render(el);
         });
+    }
+
+    // Returns the FAQ icon as an SVG element
+    private getFaqIcon(height?, width?, className?) {
+        if (height === void 0) { height = 30; }
+        if (width === void 0) { width = 36; }
+        // Get the icon element
+        let elDiv = document.createElement("div");
+        elDiv.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 14.16 18.128572'><path d='m 3.2561612,3.3927144 c 0.434,-0.232 0.901,-0.306 1.356,-0.306 0.526,0 1.138,0.173 1.632,0.577 0.517,0.424 0.868,1.074 0.868,1.922 0,0.975 -0.689,1.504 -1.077,1.802 l -0.085,0.066 c -0.424,0.333 -0.588,0.511 -0.588,0.882 a 0.75,0.75 0 0 1 -1.5,0 c 0,-1.134 0.711,-1.708 1.162,-2.062 0.513,-0.403 0.588,-0.493 0.588,-0.688 0,-0.397 -0.149,-0.622 -0.32,-0.761 a 1.115,1.115 0 0 0 -0.68,-0.239 c -0.295,0 -0.498,0.049 -0.65,0.13 -0.143,0.076 -0.294,0.21 -0.44,0.48 a 0.75060401,0.75060401 0 1 1 -1.3200002,-0.715 c 0.264,-0.486 0.612,-0.853 1.0540002,-1.089 z m 1.356,8.6929996 a 1.0000001,1.0000001 0 1 0 0,-2 1.0000001,1.0000001 0 0 0 0,2 z'/><path d='m 4.6121612,0.08571439 a 7.5,7.5 0 0 0 -6.797,10.67299961 l -0.725,2.842 a 1.25,1.25 0 0 0 1.504,1.524 c 0.74999994,-0.18 1.90299994,-0.457 2.9299998,-0.702 A 7.5,7.5 0 1 0 4.6121612,0.08571439 Z m -6,7.50000001 A 6,6 0 1 1 1.942161,12.960714 l -0.243,-0.121 -0.265,0.063 -2.7879998,0.667 c 0.2,-0.78 0.46199994,-1.812 0.68999994,-2.708 l 0.07,-0.276 -0.13,-0.253 A 5.971,5.971 0 0 1 -1.3878388,7.5857144 Z'/><path d='m 9.6121612,18.085714 c -1.97,0 -3.761,-0.759 -5.1,-2 h 0.1 c 0.718,0 1.415,-0.089 2.081,-0.257 0.864,0.482 1.86,0.757 2.92,0.757 0.9599998,0 1.8659998,-0.225 2.6689998,-0.625 l 0.243,-0.121 0.265,0.063 c 0.921,0.22 1.965,0.445 2.74,0.61 -0.176,-0.751 -0.415,-1.756 -0.642,-2.651 l -0.07,-0.276 0.13,-0.253 a 5.971,5.971 0 0 0 0.664,-2.747 5.995,5.995 0 0 0 -2.747,-5.0419996 8.443,8.443 0 0 0 -0.8,-2.047 7.503,7.503 0 0 1 4.344,10.2629996 c 0.253,1.008 0.51,2.1 0.672,2.803 a 1.244,1.244 0 0 1 -1.468,1.5 c -0.727,-0.152 -1.87,-0.396 -2.913,-0.64 a 7.476,7.476 0 0 1 -3.0879998,0.663 z'/></svg>";
+        let icon = elDiv.firstChild as SVGImageElement;
+        if (icon) {
+            // See if a class name exists
+            if (className) {
+                // Parse the class names
+                let classNames = className.split(' ');
+                for (var i = 0; i < classNames.length; i++) {
+                    // Add the class name
+                    icon.classList.add(classNames[i]);
+                }
+            } else {
+                icon.classList.add("icon-svg");
+            }
+            // Set the height/width
+            height ? icon.setAttribute("height", (height).toString()) : null;
+            width ? icon.setAttribute("width", (width).toString()) : null;
+            // Hide the icon as non-interactive content from the accessibility API
+            icon.setAttribute("aria-hidden", "true");
+            // Update the styling
+            icon.style.pointerEvents = "none";
+            // Support for IE
+            icon.setAttribute("focusable", "false");
+        }
+        // Return the icon
+        return icon;
     }
 
     // Renders the dashboard
@@ -181,7 +214,7 @@ export class App {
                 div.className = "d-flex me-2";
                 text.className = "ms-2";
                 text.append(Strings.ProjectName);
-                div.appendChild(questionCircleFill());
+                div.appendChild(this.getFaqIcon());
                 div.appendChild(text);
                 props.brand = div;
             },
