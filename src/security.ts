@@ -27,6 +27,10 @@ export class Security {
         Title: Strings.SecurityGroups.Managers.Name
     };
 
+    // Members
+    private static _memberGroup: Types.SP.Group = null;
+    static get MemberGroup(): Types.SP.Group { return this._memberGroup; }
+
     // Visitors
     private static _visitorGroup: Types.SP.Group = null;
     static get VisitorGroup(): Types.SP.Group { return this._visitorGroup; }
@@ -79,6 +83,7 @@ export class Security {
                     // Set the groups
                     this._adminGroup = this._listSecurity.getGroup(ListSecurityDefaultGroups.Owners);
                     this._faqMgrGroup = this._listSecurity.getGroup(this._faqMgrGroupInfo.Title);
+                    this._memberGroup = this._listSecurity.getGroup(ListSecurityDefaultGroups.Members);
                     this._visitorGroup = this._listSecurity.getGroup(ListSecurityDefaultGroups.Visitors);
 
                     // Set the user flags
@@ -86,7 +91,7 @@ export class Security {
                     this._isFAQMgr = this._listSecurity.isInGroup(ContextInfo.userId, this._faqMgrGroupInfo.Title);
 
                     // Ensure the groups exist
-                    if (this._adminGroup && this._faqMgrGroup && this._visitorGroup) {
+                    if (this._adminGroup && this._faqMgrGroup && this._memberGroup && this._visitorGroup) {
                         // Set the manager emails
                         this._managerEmails = [];
                         let users = this._listSecurity.getGroupUsers(this._faqMgrGroupInfo.Title);
