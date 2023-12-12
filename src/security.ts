@@ -22,9 +22,9 @@ export class Security {
     static get FAQMgrGroup(): Types.SP.Group { return this._faqMgrGroup; }
     private static _faqMgrGroupInfo: Types.SP.GroupCreationInformation = {
         AllowMembersEditMembership: false,
-        Description: "The FAQ managers.",
+        Description: Strings.SecurityGroups.Managers.Description,
         OnlyAllowMembersViewMembership: false,
-        Title: "FAQ Managers"
+        Title: Strings.SecurityGroups.Managers.Name
     };
 
     // Visitors
