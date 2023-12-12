@@ -81,6 +81,9 @@ export class DataSource {
                             type: Components.CheckboxGroupTypes.Switch
                         });
                     }
+
+                    // Resolve the request
+                    resolve();
                 }
             });
         });
