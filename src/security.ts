@@ -49,13 +49,18 @@ export class Security {
                 listItems: [
                     {
                         listName: Strings.Lists.FAQ,
-                        groupName: ListSecurityDefaultGroups.Visitors,
+                        groupName: ListSecurityDefaultGroups.Owners,
+                        permission: SPTypes.RoleType.Administrator
+                    },
+                    {
+                        listName: Strings.Lists.FAQ,
+                        groupName: ListSecurityDefaultGroups.Members,
                         permission: SPTypes.RoleType.Reader
                     },
                     {
                         listName: Strings.Lists.FAQ,
-                        groupName: ListSecurityDefaultGroups.Owners,
-                        permission: SPTypes.RoleType.Administrator
+                        groupName: ListSecurityDefaultGroups.Visitors,
+                        permission: SPTypes.RoleType.Reader
                     },
                     {
                         listName: Strings.Lists.FAQ,
