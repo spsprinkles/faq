@@ -1,7 +1,6 @@
 declare interface IFaqWebPartStrings {
-  PropertyPaneDescription: string;
-  BasicGroupName: string;
-  DescriptionFieldLabel: string;
+  TitleFieldDescription: string;
+  TitleFieldLabel: string;
 }
 
 declare module 'FaqWebPartStrings' {

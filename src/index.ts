@@ -15,6 +15,7 @@ interface IProps {
     context?: any;
     displayMode?: number;
     envType?: number;
+    title?: string;
     sourceUrl?: string;
 }
 
@@ -37,6 +38,9 @@ const GlobalVariable = {
             // Update the configuration
             Configuration.setWebUrl(props.sourceUrl || ContextInfo.webServerRelativeUrl);
         }
+
+        // Update the ProjectName from SPFx title field
+        props.title ? Strings.ProjectName = props.title : null;
 
         // Initialize the application
         DataSource.init().then(
@@ -63,6 +67,7 @@ const GlobalVariable = {
                 LoadingDialog.hide();
             });
     },
+    title: Strings.ProjectName,
     updateTheme: (themeInfo) => {
         // Set the theme
         ThemeManager.setCurrentTheme(themeInfo);

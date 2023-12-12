@@ -1,7 +1,6 @@
 define([], function() {
   return {
-    "PropertyPaneDescription": "Description",
-    "BasicGroupName": "Group Name",
-    "DescriptionFieldLabel": "Description Field"
+    "TitleFieldDescription": "The title shown at the top of the app",
+    "TitleFieldLabel": "App Title"
   }
 });

@@ -5,7 +5,7 @@ import { IReadonlyTheme } from '@microsoft/sp-component-base';
 import * as strings from 'FaqWebPartStrings';
 
 export interface IFaqWebPartProps {
-  description: string;
+  title: string;
 }
 
 // Reference the solution
@@ -17,8 +17,10 @@ declare const FaqApp: {
     context?: WebPartContext;
     displayMode?: DisplayMode;
     envType?: number;
+    title?: string;
     sourceUrl?: string;
   }) => void;
+  title: string;
   updateTheme: (currentTheme: Partial<IReadonlyTheme>) => void;
   version: string;
 };
@@ -33,12 +35,16 @@ export default class FaqWebPart extends BaseClientSideWebPart<IFaqWebPartProps> 
       while (this.domElement.firstChild) { this.domElement.removeChild(this.domElement.firstChild); }
     }
 
+    // Set the default property values
+    if (!this.properties.title) { this.properties.title = FaqApp.title; }
+
     // Render the application
     FaqApp.render({
       el: this.domElement,
       context: this.context,
       displayMode: this.displayMode,
-      envType: Environment.type
+      envType: Environment.type,
+      title: this.properties.title
     });
 
     // Set the flag
@@ -64,10 +70,10 @@ export default class FaqWebPart extends BaseClientSideWebPart<IFaqWebPartProps> 
         {
           groups: [
             {
-              groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField('description', {
-                  label: strings.DescriptionFieldLabel
+                PropertyPaneTextField('title', {
+                  label: strings.TitleFieldLabel,
+                  description: strings.TitleFieldDescription
                 }),
                 PropertyPaneLabel('version', {
                   text: "v" + FaqApp.version
