@@ -50,7 +50,7 @@ export class Security {
                     {
                         listName: Strings.Lists.FAQ,
                         groupName: this._faqMgrGroupInfo.Title,
-                        permission: SPTypes.RoleType.Contributor
+                        permission: SPTypes.RoleType.WebDesigner
                     },
                     {
                         listName: Strings.Lists.FAQ,
