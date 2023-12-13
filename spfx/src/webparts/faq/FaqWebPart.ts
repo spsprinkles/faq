@@ -77,6 +77,8 @@ export default class FaqWebPart extends BaseClientSideWebPart<IFaqWebPartProps> 
     return Version.parse(FaqApp.version);
   }
 
+  protected get disableReactivePropertyChanges(): boolean { return true; }
+
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
     return {
       pages: [
