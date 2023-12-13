@@ -60,12 +60,12 @@ export class Security {
                     {
                         listName: Strings.Lists.FAQ,
                         groupName: ListSecurityDefaultGroups.Members,
-                        permission: SPTypes.RoleType.Reader
+                        permission: SPTypes.RoleType.Contributor
                     },
                     {
                         listName: Strings.Lists.FAQ,
                         groupName: ListSecurityDefaultGroups.Visitors,
-                        permission: SPTypes.RoleType.Reader
+                        permission: SPTypes.RoleType.Contributor
                     }
                 ],
                 onGroupCreated: group => {
