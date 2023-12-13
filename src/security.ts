@@ -39,10 +39,6 @@ export class Security {
     private static _managerEmails: Array<string> = null;
     static get ManagerEmails(): Array<string> { return this._managerEmails; }
 
-    // Security Group Url
-    private static _securityGroupUrl = ContextInfo.webServerRelativeUrl + "/_layouts/15/people.aspx?MembershipGroupId=";
-    static get SecurityGroupUrl(): string { return this._securityGroupUrl };
-
     // Initializes the class
     static init(): PromiseLike<void> {
         // Return a promise
@@ -51,6 +47,11 @@ export class Security {
                 groups: [this._faqMgrGroupInfo],
                 webUrl: Strings.SourceUrl,
                 listItems: [
+                    {
+                        listName: Strings.Lists.FAQ,
+                        groupName: this._faqMgrGroupInfo.Title,
+                        permission: SPTypes.RoleType.Contributor
+                    },
                     {
                         listName: Strings.Lists.FAQ,
                         groupName: ListSecurityDefaultGroups.Owners,
@@ -65,11 +66,6 @@ export class Security {
                         listName: Strings.Lists.FAQ,
                         groupName: ListSecurityDefaultGroups.Visitors,
                         permission: SPTypes.RoleType.Reader
-                    },
-                    {
-                        listName: Strings.Lists.FAQ,
-                        groupName: this._faqMgrGroupInfo.Title,
-                        permission: SPTypes.RoleType.Contributor
                     }
                 ],
                 onGroupCreated: group => {
