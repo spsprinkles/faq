@@ -16,6 +16,8 @@ interface IProps {
     displayMode?: number;
     envType?: number;
     title?: string;
+    listName?: string;
+    viewName?: string;
     sourceUrl?: string;
 }
 
@@ -24,6 +26,7 @@ const GlobalVariable = {
     App: null,
     Configuration,
     description: Strings.ProjectDescription,
+    listName: Strings.Lists.FAQ,
     render: (props: IProps) => {
         // Show a loading dialog
         LoadingDialog.setHeader("Loading FAQ App");
@@ -37,13 +40,20 @@ const GlobalVariable = {
 
             // Update the configuration
             Configuration.setWebUrl(props.sourceUrl || ContextInfo.webServerRelativeUrl);
+
+            // See if the list name is set
+            if (props.listName) {
+                // Update the configuration
+                Strings.Lists.FAQ = props.listName;
+                Configuration._configuration.ListCfg[0].ListInformation.Title = props.listName;
+            }
         }
 
         // Update the ProjectName from SPFx title field
         props.title ? Strings.ProjectName = props.title : null;
 
         // Initialize the application
-        DataSource.init().then(
+        DataSource.init(props.viewName).then(
             // Success
             () => {
                 // Update the loading dialog
@@ -72,7 +82,8 @@ const GlobalVariable = {
         // Set the theme
         ThemeManager.setCurrentTheme(themeInfo);
     },
-    version: Strings.Version
+    version: Strings.Version,
+    viewName: Strings.ViewName
 }
 window[Strings.GlobalVariable] = GlobalVariable;
 

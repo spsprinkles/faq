@@ -6,23 +6,30 @@ import * as strings from 'FaqWebPartStrings';
 
 export interface IFaqWebPartProps {
   title: string;
+  listName: string;
+  viewName: string;
+  webUrl: string;
 }
 
 // Reference the solution
 import "../../../../dist/faq.min.js";
 declare const FaqApp: {
   description: string;
+  listName: string;
   render: (props: {
     el: HTMLElement;
     context?: WebPartContext;
     displayMode?: DisplayMode;
     envType?: number;
     title?: string;
+    viewName?: string;
+    listName?: string;
     sourceUrl?: string;
   }) => void;
   title: string;
   updateTheme: (currentTheme: Partial<IReadonlyTheme>) => void;
   version: string;
+  viewName: string;
 };
 
 export default class FaqWebPart extends BaseClientSideWebPart<IFaqWebPartProps> {
@@ -36,7 +43,10 @@ export default class FaqWebPart extends BaseClientSideWebPart<IFaqWebPartProps> 
     }
 
     // Set the default property values
+    if (!this.properties.listName) { this.properties.listName = FaqApp.listName; }
     if (!this.properties.title) { this.properties.title = FaqApp.title; }
+    if (!this.properties.viewName) { this.properties.viewName = FaqApp.viewName; }
+    if (!this.properties.webUrl) { this.properties.webUrl = this.context.pageContext.web.serverRelativeUrl; }
 
     // Render the application
     FaqApp.render({
@@ -44,7 +54,10 @@ export default class FaqWebPart extends BaseClientSideWebPart<IFaqWebPartProps> 
       context: this.context,
       displayMode: this.displayMode,
       envType: Environment.type,
-      title: this.properties.title
+      title: this.properties.title,
+      viewName: this.properties.viewName,
+      listName: this.properties.listName,
+      sourceUrl: this.properties.webUrl
     });
 
     // Set the flag
@@ -64,6 +77,8 @@ export default class FaqWebPart extends BaseClientSideWebPart<IFaqWebPartProps> 
     return Version.parse(FaqApp.version);
   }
 
+  protected get disableReactivePropertyChanges(): boolean { return true; }
+
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
     return {
       pages: [
@@ -74,6 +89,18 @@ export default class FaqWebPart extends BaseClientSideWebPart<IFaqWebPartProps> 
                 PropertyPaneTextField('title', {
                   label: strings.TitleFieldLabel,
                   description: strings.TitleFieldDescription
+                }),
+                PropertyPaneTextField('webUrl', {
+                  label: strings.WebUrlFieldLabel,
+                  description: strings.WebUrlFieldDescription
+                }),
+                PropertyPaneTextField('listName', {
+                  label: strings.ListNameFieldLabel,
+                  description: strings.ListNameFieldDescription
+                }),
+                PropertyPaneTextField('viewName', {
+                  label: strings.ViewNameFieldLabel,
+                  description: strings.ViewNameFieldDescription
                 }),
                 PropertyPaneLabel('version', {
                   text: "v" + FaqApp.version
