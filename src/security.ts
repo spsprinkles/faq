@@ -27,6 +27,10 @@ export class Security {
         Title: Strings.SecurityGroups.Managers.Name
     };
 
+    // Members
+    private static _memberGroup: Types.SP.Group = null;
+    static get MemberGroup(): Types.SP.Group { return this._memberGroup; }
+
     // Visitors
     private static _visitorGroup: Types.SP.Group = null;
     static get VisitorGroup(): Types.SP.Group { return this._visitorGroup; }
@@ -34,10 +38,6 @@ export class Security {
     // Manager Emails
     private static _managerEmails: Array<string> = null;
     static get ManagerEmails(): Array<string> { return this._managerEmails; }
-
-    // Security Group Url
-    private static _securityGroupUrl = ContextInfo.webServerRelativeUrl + "/_layouts/15/people.aspx?MembershipGroupId=";
-    static get SecurityGroupUrl(): string { return this._securityGroupUrl };
 
     // Initializes the class
     static init(): PromiseLike<void> {
@@ -49,8 +49,8 @@ export class Security {
                 listItems: [
                     {
                         listName: Strings.Lists.FAQ,
-                        groupName: ListSecurityDefaultGroups.Visitors,
-                        permission: SPTypes.RoleType.Reader
+                        groupName: this._faqMgrGroupInfo.Title,
+                        permission: SPTypes.RoleType.Contributor
                     },
                     {
                         listName: Strings.Lists.FAQ,
@@ -59,8 +59,13 @@ export class Security {
                     },
                     {
                         listName: Strings.Lists.FAQ,
-                        groupName: this._faqMgrGroupInfo.Title,
-                        permission: SPTypes.RoleType.Contributor
+                        groupName: ListSecurityDefaultGroups.Members,
+                        permission: SPTypes.RoleType.Reader
+                    },
+                    {
+                        listName: Strings.Lists.FAQ,
+                        groupName: ListSecurityDefaultGroups.Visitors,
+                        permission: SPTypes.RoleType.Reader
                     }
                 ],
                 onGroupCreated: group => {
@@ -74,6 +79,7 @@ export class Security {
                     // Set the groups
                     this._adminGroup = this._listSecurity.getGroup(ListSecurityDefaultGroups.Owners);
                     this._faqMgrGroup = this._listSecurity.getGroup(this._faqMgrGroupInfo.Title);
+                    this._memberGroup = this._listSecurity.getGroup(ListSecurityDefaultGroups.Members);
                     this._visitorGroup = this._listSecurity.getGroup(ListSecurityDefaultGroups.Visitors);
 
                     // Set the user flags
@@ -81,7 +87,7 @@ export class Security {
                     this._isFAQMgr = this._listSecurity.isInGroup(ContextInfo.userId, this._faqMgrGroupInfo.Title);
 
                     // Ensure the groups exist
-                    if (this._adminGroup && this._faqMgrGroup && this._visitorGroup) {
+                    if (this._adminGroup && this._faqMgrGroup && this._memberGroup && this._visitorGroup) {
                         // Set the manager emails
                         this._managerEmails = [];
                         let users = this._listSecurity.getGroupUsers(this._faqMgrGroupInfo.Title);

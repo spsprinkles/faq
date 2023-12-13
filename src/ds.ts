@@ -20,14 +20,14 @@ export class DataSource {
     static get CategoryFilters(): Components.ICheckboxGroupItem[] { return this._categoryFilters; }
 
     // Initializes the application
-    static init(): PromiseLike<any> {
+    static init(viewName?: string): PromiseLike<any> {
         // Return a promise
         return new Promise((resolve, reject) => {
             return Promise.all([
                 // Load the security
                 Security.init(),
                 // Load the data
-                this.load()
+                this.load(viewName)
             ]).then(resolve, reject);
         });
     }
@@ -35,12 +35,13 @@ export class DataSource {
     // Loads the list data
     private static _faqList: List<IItem> = null;
     static get FaqList(): List<IItem> { return this._faqList; }
-    static load(): PromiseLike<void> {
+    static load(viewName?: string): PromiseLike<void> {
         // Return a promise
         return new Promise((resolve, reject) => {
             // Load the list
             this._faqList = new List({
                 listName: Strings.Lists.FAQ,
+                viewName: viewName || Strings.ViewName,
                 webUrl: Strings.SourceUrl,
                 itemQuery: {
                     Filter: "Approved eq 1",

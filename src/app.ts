@@ -162,7 +162,7 @@ export class App {
                     isButton: true,
                     items: [
                         {
-                            text: "Manage FAQs",
+                            text: "Manage " + Strings.Lists.FAQ + " list",
                             onClick: () => {
                                 // Show the FAQ list in a new tab
                                 window.open(Strings.SourceUrl + "/Lists/" + Strings.Lists.FAQ, "_blank");
@@ -186,28 +186,31 @@ export class App {
             );
             itemsEnd[0].items.push(
                 {
-                    text: "Manage Owners",
+                    text: Security.FAQMgrGroup.Title + " Group",
                     onClick: () => {
                         // Show the settings in a new tab
-                        window.open(`${Security.SecurityGroupUrl}${Security.AdminGroup.Id}`);
+                        window.open(Strings.SourceUrl + "/_layouts/15/people.aspx?MembershipGroupId=" + Security.FAQMgrGroup.Id);
                     }
-                }
-            );
-            itemsEnd[0].items.push(
+                },
                 {
-                    text: "Manage Managers",
+                    text: Security.AdminGroup.Title + " Group",
                     onClick: () => {
                         // Show the settings in a new tab
-                        window.open(`${Security.SecurityGroupUrl}${Security.FAQMgrGroup.Id}`);
+                        window.open(Strings.SourceUrl + "/_layouts/15/people.aspx?MembershipGroupId=" + Security.AdminGroup.Id);
                     }
-                }
-            );
-            itemsEnd[0].items.push(
+                },
                 {
-                    text: "Manage Visitors",
+                    text: Security.MemberGroup.Title + " Group",
                     onClick: () => {
                         // Show the settings in a new tab
-                        window.open(`${Security.SecurityGroupUrl}${Security.VisitorGroup.Id}`);
+                        window.open(Strings.SourceUrl + "/_layouts/15/people.aspx?MembershipGroupId=" + Security.MemberGroup.Id);
+                    }
+                },
+                {
+                    text: Security.VisitorGroup.Title + " Group",
+                    onClick: () => {
+                        // Show the settings in a new tab
+                        window.open(Strings.SourceUrl + "/_layouts/15/people.aspx?MembershipGroupId=" + Security.VisitorGroup.Id);
                     }
                 }
             );
