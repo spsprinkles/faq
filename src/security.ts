@@ -50,7 +50,7 @@ export class Security {
                     {
                         listName: Strings.Lists.FAQ,
                         groupName: this._faqMgrGroupInfo.Title,
-                        permission: SPTypes.RoleType.Contributor
+                        permission: SPTypes.RoleType.WebDesigner
                     },
                     {
                         listName: Strings.Lists.FAQ,
@@ -60,12 +60,12 @@ export class Security {
                     {
                         listName: Strings.Lists.FAQ,
                         groupName: ListSecurityDefaultGroups.Members,
-                        permission: SPTypes.RoleType.Reader
+                        permission: SPTypes.RoleType.Contributor
                     },
                     {
                         listName: Strings.Lists.FAQ,
                         groupName: ListSecurityDefaultGroups.Visitors,
-                        permission: SPTypes.RoleType.Reader
+                        permission: SPTypes.RoleType.Contributor
                     }
                 ],
                 onGroupCreated: group => {
