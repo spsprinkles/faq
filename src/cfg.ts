@@ -69,8 +69,21 @@ export const Configuration = Helper.SPConfig({
             ],
             ViewInformation: [
                 {
+                    ViewName: "All Approved",
+                    Default: true,
+                    RowLimit: 500,
+                    ViewQuery: '<OrderBy><FieldRef Name="Title" /></OrderBy><Where><Eq><FieldRef Name="Approved" /><Value Type="Boolean">1</Value></Eq></Where>',
+                    ViewFields: [
+                        "Category",
+                        "LinkTitle",
+                        "Answer",
+                        "Approved"
+                    ]
+                },
+                {
                     ViewName: "All Items",
-                    ViewQuery: '<OrderBy><FieldRef Name="Category" /><FieldRef Name="Title" /></OrderBy>',
+                    RowLimit: 100,
+                    ViewQuery: '<OrderBy><FieldRef Name="Title" /></OrderBy>',
                     ViewFields: [
                         "Category",
                         "LinkTitle",
