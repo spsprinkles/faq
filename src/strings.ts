@@ -32,6 +32,6 @@ const Strings = {
     },
     SourceUrl: ContextInfo.webServerRelativeUrl,
     Version: "0.1.3",
-    ViewName: "All Items"
+    ViewName: "All Approved"
 };
 export default Strings;
