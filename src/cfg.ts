@@ -17,7 +17,6 @@ export const Configuration = Helper.SPConfig({
                     FieldRefs: [
                         "Category",
                         "Title",
-                        "Alerted",
                         "Answer",
                         "Approved"
                     ]
@@ -34,9 +33,9 @@ export const Configuration = Helper.SPConfig({
                     choices: [
                         "Applications",
                         "Chat",
-                        "CHES Environment",
                         "Connectivity",
                         "Documents",
+                        "Environment",
                         "General",
                         "Getting Started",
                         "Meetings",
