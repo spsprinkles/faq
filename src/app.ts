@@ -302,6 +302,7 @@ export class App {
                                 onClick: () => {
                                     // Create an item
                                     DataSource.FaqList.newForm({
+                                        webUrl: Strings.SourceUrl,
                                         onCreateEditForm: props => {
                                             // Update the fields to display
                                             props.excludeFields = ["Answer", "Approved"];
