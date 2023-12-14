@@ -1,5 +1,6 @@
 define([], function() {
   return {
+    "EnableLoadingFieldLabel": "Loading Dialog",
     "ListNameFieldDescription": "The name of the list to save the FAQ items in",
     "ListNameFieldLabel": "List Name",
     "TitleFieldDescription": "The text shown in the top-left of the webpart",

@@ -1,10 +1,11 @@
 import { DisplayMode, Environment, Version } from '@microsoft/sp-core-library';
-import { IPropertyPaneConfiguration, PropertyPaneLabel, PropertyPaneTextField } from '@microsoft/sp-property-pane';
+import { PropertyPaneCheckbox, IPropertyPaneConfiguration, PropertyPaneLabel, PropertyPaneTextField } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart, WebPartContext } from '@microsoft/sp-webpart-base';
 import { IReadonlyTheme } from '@microsoft/sp-component-base';
 import * as strings from 'FaqWebPartStrings';
 
 export interface IFaqWebPartProps {
+  enableLoading: boolean;
   title: string;
   listName: string;
   viewName: string;
@@ -15,11 +16,13 @@ export interface IFaqWebPartProps {
 import "../../../../dist/faq.min.js";
 declare const FaqApp: {
   description: string;
+  enableLoading: boolean;
   listName: string;
   render: (props: {
     el: HTMLElement;
     context?: WebPartContext;
     displayMode?: DisplayMode;
+    enableLoading?: boolean;
     envType?: number;
     title?: string;
     viewName?: string;
@@ -43,6 +46,7 @@ export default class FaqWebPart extends BaseClientSideWebPart<IFaqWebPartProps> 
     }
 
     // Set the default property values
+    if (typeof this.properties.enableLoading === typeof undefined) { this.properties.enableLoading = FaqApp.enableLoading; }
     if (!this.properties.listName) { this.properties.listName = FaqApp.listName; }
     if (!this.properties.title) { this.properties.title = FaqApp.title; }
     if (!this.properties.viewName) { this.properties.viewName = FaqApp.viewName; }
@@ -53,6 +57,7 @@ export default class FaqWebPart extends BaseClientSideWebPart<IFaqWebPartProps> 
       el: this.domElement,
       context: this.context,
       displayMode: this.displayMode,
+      enableLoading: this.properties.enableLoading,
       envType: Environment.type,
       title: this.properties.title,
       viewName: this.properties.viewName,
@@ -101,6 +106,12 @@ export default class FaqWebPart extends BaseClientSideWebPart<IFaqWebPartProps> 
                 PropertyPaneTextField('viewName', {
                   label: strings.ViewNameFieldLabel,
                   description: strings.ViewNameFieldDescription
+                }),
+                PropertyPaneLabel('loadingLabel', {
+                  text: strings.EnableLoadingFieldLabel
+                }),
+                PropertyPaneCheckbox("enableLoading", {
+                  text: "Enabled"
                 }),
                 PropertyPaneLabel('version', {
                   text: "v" + FaqApp.version

@@ -14,6 +14,7 @@ interface IProps {
     el: HTMLElement;
     context?: any;
     displayMode?: number;
+    enableLoading?: boolean;
     envType?: number;
     title?: string;
     listName?: string;
@@ -26,12 +27,16 @@ const GlobalVariable = {
     App: null,
     Configuration,
     description: Strings.ProjectDescription,
+    enableLoading: Strings.EnableLoading,
     listName: Strings.Lists.FAQ,
     render: (props: IProps) => {
+        // Set the EnableLoading value from SPFx settings
+        (typeof props.enableLoading === typeof undefined) ? null : Strings.EnableLoading = props.enableLoading;
+
         // Show a loading dialog
         LoadingDialog.setHeader("Loading FAQ App");
         LoadingDialog.setBody("This may take some time based on the number of FAQ's...");
-        LoadingDialog.show();
+        Strings.EnableLoading ? LoadingDialog.show() : null;
 
         // Set the page context if it exists
         if (props.context) {
@@ -65,7 +70,7 @@ const GlobalVariable = {
                     GlobalVariable.App = new App(props.el);
                     
                     // Hide the loading dialog
-                    LoadingDialog.hide();
+                    Strings.EnableLoading ? LoadingDialog.hide() : null;
                 });
             },
             // Error
@@ -74,7 +79,7 @@ const GlobalVariable = {
                 InstallationModal.show();
 
                 // Hide the loading dialog
-                LoadingDialog.hide();
+                Strings.EnableLoading ? LoadingDialog.hide() : null;
             });
     },
     title: Strings.ProjectName,
