@@ -16,6 +16,7 @@ export const setContext = (context, envType?: number, sourceUrl?: string) => {
  */
 const Strings = {
     AppElementId: "faq-app",
+    EnableLoading: true,
     GlobalVariable: "FaqApp",
     IsClassic: true,
     Lists: {

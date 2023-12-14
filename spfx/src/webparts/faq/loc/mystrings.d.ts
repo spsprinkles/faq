@@ -1,4 +1,5 @@
 declare interface IFaqWebPartStrings {
+  EnableLoadingFieldLabel: string;
   ListNameFieldDescription: string;
   ListNameFieldLabel: string;
   TitleFieldDescription: string;
