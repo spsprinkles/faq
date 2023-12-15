@@ -13,6 +13,7 @@ import Strings from "./strings";
  */
 export class App {
     private _accordion: Components.IAccordion = null;
+    private _activeFilterClass: string = null;
 
     // Constructor
     constructor(el: HTMLElement) {
@@ -133,6 +134,7 @@ export class App {
                 items: DataSource.CategoryFilters,
                 onFilter: (filter: string) => {
                     let className = filter ? filter.toLowerCase().replace(/ /g, "-") : null;
+                    this._activeFilterClass = className;
 
                     // Parse all accordion items
                     let items = el.querySelectorAll(".accordion-item");
@@ -157,7 +159,7 @@ export class App {
                     }
 
                     // Render the pagination
-                    this.renderPagination(el, className);
+                    this.renderPagination(el);
                 }
             }]
         });
@@ -255,8 +257,8 @@ export class App {
                 // Remove the spaces from the value
                 value = (value ? value.trim() : "").toLowerCase();
 
-                // Parse all accordion items
-                let items = el.querySelectorAll(".accordion-item");
+                // Parse all active items
+                let items = this._accordion.el.querySelectorAll(this._activeFilterClass ? "." + this._activeFilterClass : ".accordion-item");
                 for (let i = 0; i < items.length; i++) {
                     let elItem = items[i] as HTMLElement;
                     let elContent = elItem.querySelector(".accordion-body") as HTMLElement;
@@ -399,7 +401,7 @@ export class App {
     }
 
     // Renders the pagination
-    private renderPagination(el: HTMLElement, activeFilterClass?: string) {
+    private renderPagination(el: HTMLElement) {
         // Get the pagination element
         let elPagination = el.querySelector(".accordion-pagination") as HTMLElement;
         if (elPagination) {
@@ -413,7 +415,7 @@ export class App {
         }
 
         // Get the elements
-        let elItems = this._accordion.el.querySelectorAll(activeFilterClass ? "." + activeFilterClass : ".accordion-item");
+        let elItems = this._accordion.el.querySelectorAll(this._activeFilterClass ? "." + this._activeFilterClass : ".accordion-item");
 
         // Parse the items
         for (let i = Strings.PaginationLimit; i < elItems.length; i++) {
