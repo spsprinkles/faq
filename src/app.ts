@@ -12,6 +12,8 @@ import Strings from "./strings";
  * Main Application
  */
 export class App {
+    private _accordion: Components.IAccordion = null;
+
     // Constructor
     constructor(el: HTMLElement) {
         // Set the list name
@@ -63,6 +65,9 @@ export class App {
         // Render the accordion
         this.renderAccordion(el);
 
+        // Render the pagination
+        this.renderPagination(el);
+
         // Render the footer
         new Footer({
             el,
@@ -112,7 +117,7 @@ export class App {
         }
 
         // Render the accordion
-        Components.Accordion({
+        this._accordion = Components.Accordion({
             el,
             id: "accordion-list",
             items: accordionItems
@@ -382,6 +387,57 @@ export class App {
             ],
             onRendered: (el) => {
                 el.classList.remove("bg-light");
+            }
+        });
+    }
+
+    // Renders the pagination
+    private renderPagination(el: HTMLElement) {
+        // Get the elements
+        let elItems = this._accordion.el.querySelectorAll(".accordion-item");
+
+        // Parse the items
+        for (let i = Strings.PaginationLimit; i < elItems.length; i++) {
+            // Hide the item
+            elItems[i].classList.add("d-none");
+        }
+
+        // Render pagination
+        Components.Pagination({
+            el,
+            className: "d-flex justify-content-center pt-1",
+            numberOfPages: Math.ceil(elItems.length / Strings.PaginationLimit),
+            onClick: (pageNumber) => {
+                // Parse the items
+                for (let i = 0; i < elItems.length; i++) {
+                    let elItem = elItems[i];
+
+                    // See if this item is expanded
+                    if (elItem.querySelector(".accordion-collapse.show")) {
+                        // Hide the button
+                        let btn = elItem.querySelector(".accordion-button") as HTMLButtonElement;
+                        btn?.click();
+                    }
+
+                    // Hide the item
+                    elItem.classList.add("d-none");
+                }
+
+                // Parse the items to show
+                let startIdx = (pageNumber - 1) * Strings.PaginationLimit;
+                for (let i = startIdx; i < startIdx + Strings.PaginationLimit && i < elItems.length; i++) {
+                    let elItem = elItems[i];
+
+                    // Show the item
+                    elItem.classList.remove("d-none");
+
+                    // See if this is the first item
+                    if (i == startIdx) {
+                        // Expand the item
+                        let btn = elItem.querySelector(".accordion-button") as HTMLButtonElement;
+                        btn?.click();
+                    }
+                }
             }
         });
     }
