@@ -151,6 +151,9 @@ export class App {
                             }
                         }
                     }
+
+                    // Render the pagination
+                    this.renderPagination(el, className);
                 }
             }]
         });
@@ -392,9 +395,21 @@ export class App {
     }
 
     // Renders the pagination
-    private renderPagination(el: HTMLElement) {
+    private renderPagination(el: HTMLElement, activeFilterClass?: string) {
+        // Get the pagination element
+        let elPagination = el.querySelector(".accordion-pagination") as HTMLElement;
+        if (elPagination) {
+            // Clear the element
+            while (elPagination.firstChild) { elPagination.removeChild(elPagination.firstChild); }
+        } else {
+            // Create the element
+            elPagination = document.createElement("div");
+            elPagination.classList.add("accordion-pagination");
+            el.appendChild(elPagination);
+        }
+
         // Get the elements
-        let elItems = this._accordion.el.querySelectorAll(".accordion-item");
+        let elItems = this._accordion.el.querySelectorAll(activeFilterClass ? "." + activeFilterClass : ".accordion-item");
 
         // Parse the items
         for (let i = Strings.PaginationLimit; i < elItems.length; i++) {
@@ -402,9 +417,16 @@ export class App {
             elItems[i].classList.add("d-none");
         }
 
-        // Render pagination
+        // Ensure the first item is expanded
+        if (elItems.length > 0 && elItems[0].querySelector(".accordion-collapse.show") == null) {
+            // Hide the button
+            let btn = elItems[0].querySelector(".accordion-button") as HTMLButtonElement;
+            btn?.click();
+        }
+
+        // Render the component
         Components.Pagination({
-            el,
+            el: elPagination,
             className: "d-flex justify-content-center pt-1",
             numberOfPages: Math.ceil(elItems.length / Strings.PaginationLimit),
             onClick: (pageNumber) => {
