@@ -445,7 +445,7 @@ export class App {
         // Render the component
         Components.Pagination({
             el: elPagination,
-            className: "d-flex justify-content-center pt-1",
+            className: "d-flex justify-content-end pt-2",
             numberOfPages: Math.ceil(elItems.length / Strings.PaginationLimit),
             onClick: (pageNumber) => {
                 // Parse the items
