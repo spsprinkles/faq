@@ -1,6 +1,20 @@
 /** Custom Styles Go Here */
-.bs .accordion-button.collapsed {
-    background-color: color-mix(in srgb, var(--sp-black, #000000), transparent 95%);
+.bs {
+    .accordion-button.collapsed {
+        background-color: color-mix(in srgb, var(--sp-black, #000000), transparent 95%);
+    }
+    /* Fix for filtered items and first/last items not being rounded */
+    .accordion-item.first-item {
+        border-top-left-radius: var(--bs-accordion-border-radius);
+        border-top-right-radius: var(--bs-accordion-border-radius);
+    }
+    .accordion-item.last-item {
+        border-bottom-right-radius: var(--bs-accordion-border-radius);
+        border-bottom-left-radius: var(--bs-accordion-border-radius);
+    }
+    .accordion-pagination ul.pagination {
+        margin-bottom: 0;
+    }
 }
 
 /* Fix icon alignment inside nav item buttons */
@@ -13,8 +27,8 @@
     background-color: color-mix(in srgb, var(--sp-black, #000000), transparent 95%);
     border: 3px solid var(--sp-neutral-quaternary);
     border-top: 0;
-    border-radius: 0 0 0.25rem 0.25rem;
-    margin-bottom: 0.25rem;
+    border-radius: 0 0 .25rem .25rem;
+    margin-bottom: .5rem;
 }
 
 /* Apply changes to the Settings Panel */
@@ -23,14 +37,4 @@ div.spPropertyPaneContainer div[aria-label='FAQ property pane'] div[data-automat
     >div:last-child label {
         text-align: right;
     }
-}
-
-/* Fix for filtered items and first/last items not being rounded */
-.bs .accordion-item.first-item {
-    border-top-left-radius: var(--bs-accordion-border-radius);
-    border-top-right-radius: var(--bs-accordion-border-radius);
-}
-.bs .accordion-item.last-item {
-    border-bottom-left-radius: var(--bs-accordion-border-radius);
-    border-bottom-right-radius: var(--bs-accordion-border-radius);
 }
