@@ -142,6 +142,10 @@ export class App {
                         // Show the item
                         elItem.classList.remove("d-none");
 
+                        // Remove the first/last item classes
+                        elItem.classList.remove("first-item");
+                        elItem.classList.remove("last-item");
+
                         // See if a class name exists
                         if (className) {
                             // See if this item doesn't matches
@@ -415,13 +419,27 @@ export class App {
         for (let i = Strings.PaginationLimit; i < elItems.length; i++) {
             // Hide the item
             elItems[i].classList.add("d-none");
+
+            // Remove the first/last item classes
+            elItems[i].classList.remove("first-item")
+            elItems[i].classList.remove("last-item")
         }
 
-        // Ensure the first item is expanded
-        if (elItems.length > 0 && elItems[0].querySelector(".accordion-collapse.show") == null) {
-            // Hide the button
-            let btn = elItems[0].querySelector(".accordion-button") as HTMLButtonElement;
-            btn?.click();
+        // Ensure items exist
+        if (elItems.length > 0) {
+            // Ensure the first item is expanded
+            if (elItems[0].querySelector(".accordion-collapse.show") == null) {
+                // Hide the button
+                let btn = elItems[0].querySelector(".accordion-button") as HTMLButtonElement;
+                btn?.click();
+            }
+
+            // Set the first item class
+            elItems[0].classList.add("first-item");
+
+            // Set the last item class
+            let lastIdx = Strings.PaginationLimit - 1;
+            elItems[lastIdx < elItems.length ? lastIdx : elItems.length - 1].classList.add("last-item");
         }
 
         // Render the component
@@ -443,6 +461,10 @@ export class App {
 
                     // Hide the item
                     elItem.classList.add("d-none");
+
+                    // Remove the first/last item classes
+                    elItems[i].classList.remove("first-item")
+                    elItems[i].classList.remove("last-item")
                 }
 
                 // Parse the items to show
@@ -455,11 +477,18 @@ export class App {
 
                     // See if this is the first item
                     if (i == startIdx) {
+                        // Set the first item class
+                        elItem.classList.add("first-item");
+
                         // Expand the item
                         let btn = elItem.querySelector(".accordion-button") as HTMLButtonElement;
                         btn?.click();
                     }
                 }
+
+                // Set the last item class
+                let lastIdx = startIdx + Strings.PaginationLimit - 1;
+                elItems[lastIdx < elItems.length ? lastIdx : elItems.length - 1].classList.add("last-item");
             }
         });
     }

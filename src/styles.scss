@@ -24,3 +24,13 @@ div.spPropertyPaneContainer div[aria-label='FAQ property pane'] div[data-automat
         text-align: right;
     }
 }
+
+/* Fix for filtered items and first/last items not being rounded */
+.bs .accordion-item.first-item {
+    border-top-left-radius: var(--bs-accordion-border-radius);
+    border-top-right-radius: var(--bs-accordion-border-radius);
+}
+.bs .accordion-item.last-item {
+    border-bottom-left-radius: var(--bs-accordion-border-radius);
+    border-bottom-right-radius: var(--bs-accordion-border-radius);
+}
