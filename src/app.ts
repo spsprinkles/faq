@@ -14,6 +14,7 @@ import Strings from "./strings";
 export class App {
     private _accordion: Components.IAccordion = null;
     private _activeFilterClass: string = null;
+    private _activeSearchFilter: string = null;
 
     // Constructor
     constructor(el: HTMLElement) {
@@ -160,6 +161,9 @@ export class App {
 
                     // Render the pagination
                     this.renderPagination(el);
+
+                    // Seach the items if needed
+                    this._activeSearchFilter ? this.searchItems() : null;
                 }
             }]
         });
@@ -254,28 +258,9 @@ export class App {
                 el.querySelector("a.navbar-brand").classList.add("pe-none");
             },
             onSearch: value => {
-                // Remove the spaces from the value
-                value = (value ? value.trim() : "").toLowerCase();
-
-                // Parse all active items
-                let items = this._accordion.el.querySelectorAll(this._activeFilterClass ? "." + this._activeFilterClass : ".accordion-item");
-                for (let i = 0; i < items.length; i++) {
-                    let elItem = items[i] as HTMLElement;
-                    let elContent = elItem.querySelector(".accordion-body") as HTMLElement;
-
-                    // Show the item
-                    elItem.classList.remove("d-none");
-
-                    // See if a search value exists
-                    if (value) {
-                        // See if the item contains the search value
-                        if (elItem.innerText.toLowerCase().indexOf(value) < 0 &&
-                            elContent.innerText.toLowerCase().indexOf(value) < 0) {
-                            // Hide the item
-                            elItem.classList.add("d-none");
-                        }
-                    }
-                }
+                // Search the items
+                this._activeSearchFilter = value;
+                this.searchItems();
             },
             onSearchRendered: (el) => {
                 el.setAttribute("placeholder", "Search all FAQ's");
@@ -493,5 +478,52 @@ export class App {
                 elItems[lastIdx < elItems.length ? lastIdx : elItems.length - 1].classList.add("last-item");
             }
         });
+    }
+
+    // Searches the items
+    private searchItems() {
+        let hasExpandedItem = false;
+
+        // Remove the spaces from the value
+        let value = (this._activeSearchFilter ? this._activeSearchFilter.trim() : "").toLowerCase();
+
+        // Parse all active items
+        let items = this._accordion.el.querySelectorAll(this._activeFilterClass ? "." + this._activeFilterClass : ".accordion-item");
+        for (let i = 0; i < items.length; i++) {
+            let elItem = items[i] as HTMLElement;
+            let elContent = elItem.querySelector(".accordion-body") as HTMLElement;
+
+            // Show the item
+            elItem.classList.remove("d-none");
+
+            // See if a search value exists
+            if (value) {
+                // See if the item doesn't contains the search value
+                if (elItem.innerText.toLowerCase().indexOf(value) < 0 &&
+                    elContent.innerText.toLowerCase().indexOf(value) < 0) {
+                    // Hide the item
+                    elItem.classList.add("d-none");
+                } else {
+                    // See if this item is expanded
+                    hasExpandedItem = elItem.querySelector(".accordion-collapse.show") ? true : false;
+                }
+            }
+        }
+
+        // See if no items are expanded 
+        if (!hasExpandedItem) {
+            // Parse the items
+            for (let i = 0; i < items.length; i++) {
+                let item = items[i];
+
+                // Skip hidden items
+                if (item.classList.contains("d-none")) { continue; }
+
+                // Expand the item
+                let btn = item.querySelector(".accordion-button") as HTMLButtonElement;
+                btn?.click();
+                break;
+            }
+        }
     }
 }
