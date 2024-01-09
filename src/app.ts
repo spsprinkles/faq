@@ -488,11 +488,13 @@ export class App {
             elItems[lastIdx < elItems.length ? lastIdx : elItems.length - 1].classList.add("last-item");
         }
 
+        let numberOfPages = Math.ceil(elItems.length / Strings.PaginationLimit);
+
         // Render the component
-        Components.Pagination({
+        let pagination = Components.Pagination({
             el: elPagination,
             className: "d-flex justify-content-end pt-2",
-            numberOfPages: Math.ceil(elItems.length / Strings.PaginationLimit),
+            numberOfPages,
             onClick: (pageNumber) => {
                 // Parse the items
                 for (let i = 0; i < elItems.length; i++) {
@@ -533,5 +535,15 @@ export class App {
                 elItems[lastIdx < elItems.length ? lastIdx : elItems.length - 1].classList.add("last-item");
             }
         });
+
+        let prev = pagination.el.querySelector("ul.pagination li.page-item:first-child");
+        let next = pagination.el.querySelector("ul.pagination li.page-item:last-child");
+        prev.classList.add("disabled");
+        prev.classList.add("previous");
+        next.classList.add("next");
+
+        if (numberOfPages == 1) {
+            next.classList.add("disabled");
+        }
     }
 }
