@@ -1,13 +1,14 @@
 import { DisplayMode, Environment, Version } from '@microsoft/sp-core-library';
-import { PropertyPaneCheckbox, IPropertyPaneConfiguration, PropertyPaneLabel, PropertyPaneTextField } from '@microsoft/sp-property-pane';
+import { IPropertyPaneConfiguration, PropertyPaneCheckbox, PropertyPaneLabel, PropertyPaneSlider, PropertyPaneTextField } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart, WebPartContext } from '@microsoft/sp-webpart-base';
 import { IReadonlyTheme } from '@microsoft/sp-component-base';
 import * as strings from 'FaqWebPartStrings';
 
 export interface IFaqWebPartProps {
   enableLoading: boolean;
-  title: string;
   listName: string;
+  paginationLimit: number;
+  title: string;
   viewName: string;
   webUrl: string;
 }
@@ -24,11 +25,13 @@ declare const FaqApp: {
     displayMode?: DisplayMode;
     enableLoading?: boolean;
     envType?: number;
+    paginationLimit?: number;
     title?: string;
     viewName?: string;
     listName?: string;
     sourceUrl?: string;
   }) => void;
+  paginationLimit: number;
   title: string;
   updateTheme: (currentTheme: Partial<IReadonlyTheme>) => void;
   version: string;
@@ -48,6 +51,7 @@ export default class FaqWebPart extends BaseClientSideWebPart<IFaqWebPartProps> 
     // Set the default property values
     if (typeof this.properties.enableLoading === typeof undefined) { this.properties.enableLoading = FaqApp.enableLoading; }
     if (!this.properties.listName) { this.properties.listName = FaqApp.listName; }
+    if (!this.properties.paginationLimit) { this.properties.paginationLimit = FaqApp.paginationLimit; }
     if (!this.properties.title) { this.properties.title = FaqApp.title; }
     if (!this.properties.viewName) { this.properties.viewName = FaqApp.viewName; }
     if (!this.properties.webUrl) { this.properties.webUrl = this.context.pageContext.web.serverRelativeUrl; }
@@ -106,6 +110,12 @@ export default class FaqWebPart extends BaseClientSideWebPart<IFaqWebPartProps> 
                 PropertyPaneTextField('viewName', {
                   label: strings.ViewNameFieldLabel,
                   description: strings.ViewNameFieldDescription
+                }),
+                PropertyPaneSlider('paginationLimit', {
+                  label: strings.PaginationLimitFieldLabel,
+                  max: 30,
+                  min: 1,
+                  showValue: true
                 }),
                 PropertyPaneLabel('loadingLabel', {
                   text: strings.EnableLoadingFieldLabel

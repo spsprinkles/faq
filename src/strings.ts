@@ -22,7 +22,7 @@ const Strings = {
     Lists: {
         FAQ: "FAQ"
     },
-    PaginationLimit: 3,
+    PaginationLimit: 10,
     ProjectDescription: "This is a frequently asked questions webpart",
     ProjectName: "FAQ",
     SecurityGroups: {

@@ -16,10 +16,11 @@ interface IProps {
     displayMode?: number;
     enableLoading?: boolean;
     envType?: number;
-    title?: string;
     listName?: string;
-    viewName?: string;
+    paginationLimit?: number;
     sourceUrl?: string;
+    title?: string;
+    viewName?: string;
 }
 
 // Create the global variable for this solution
@@ -29,6 +30,7 @@ const GlobalVariable = {
     description: Strings.ProjectDescription,
     enableLoading: Strings.EnableLoading,
     listName: Strings.Lists.FAQ,
+    paginationLimit: Strings.PaginationLimit,
     render: (props: IProps) => {
         // Set the EnableLoading value from SPFx settings
         (typeof props.enableLoading === typeof undefined) ? null : Strings.EnableLoading = props.enableLoading;
@@ -53,6 +55,9 @@ const GlobalVariable = {
                 Configuration._configuration.ListCfg[0].ListInformation.Title = props.listName;
             }
         }
+
+        // Update the PaginationLimit from SPFx value
+        props.paginationLimit ? Strings.PaginationLimit = props.paginationLimit : null;
 
         // Update the ProjectName from SPFx title field
         props.title ? Strings.ProjectName = props.title : null;
