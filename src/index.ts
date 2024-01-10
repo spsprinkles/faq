@@ -4,6 +4,7 @@ import { App } from "./app";
 import { Configuration } from "./cfg";
 import { DataSource } from "./ds";
 import { InstallationModal } from "./install";
+import { Security } from "./security";
 import Strings, { setContext } from "./strings";
 
 // Styling
@@ -80,11 +81,19 @@ const GlobalVariable = {
             },
             // Error
             () => {
-                // Show the installation modal
-                InstallationModal.show();
+                // See if the user has the correct permissions
+                Security.hasPermissions().then(hasPermissions => {
+                    // See if the user has permissions
+                    if (hasPermissions) {
+                        // Show the installation modal
+                        InstallationModal.show();
+                    } else {
+                        // TODO: Dade add something here
+                    }
 
-                // Hide the loading dialog
-                Strings.EnableLoading ? LoadingDialog.hide() : null;
+                    // Hide the loading dialog
+                    Strings.EnableLoading ? LoadingDialog.hide() : null;
+                });
             });
     },
     title: Strings.ProjectName,
