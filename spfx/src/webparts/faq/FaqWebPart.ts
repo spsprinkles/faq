@@ -49,7 +49,7 @@ export default class FaqWebPart extends BaseClientSideWebPart<IFaqWebPartProps> 
     }
 
     // Set the default property values
-    if (typeof this.properties.enableLoading === typeof undefined) { this.properties.enableLoading = FaqApp.enableLoading; }
+    if (typeof(this.properties.enableLoading) === "undefined") { this.properties.enableLoading = FaqApp.enableLoading; }
     if (!this.properties.listName) { this.properties.listName = FaqApp.listName; }
     if (!this.properties.paginationLimit) { this.properties.paginationLimit = FaqApp.paginationLimit; }
     if (!this.properties.title) { this.properties.title = FaqApp.title; }

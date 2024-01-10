@@ -33,7 +33,7 @@ const GlobalVariable = {
     paginationLimit: Strings.PaginationLimit,
     render: (props: IProps) => {
         // Set the EnableLoading value from SPFx settings
-        (typeof props.enableLoading === typeof undefined) ? null : Strings.EnableLoading = props.enableLoading;
+        (typeof (props.enableLoading) === "undefined") ? null : Strings.EnableLoading = props.enableLoading;
 
         // Show a loading dialog
         LoadingDialog.setHeader("Loading FAQ App");
@@ -73,7 +73,7 @@ const GlobalVariable = {
                 waitForTheme().then(() => {
                     // Create the application
                     GlobalVariable.App = new App(props.el);
-                    
+
                     // Hide the loading dialog
                     Strings.EnableLoading ? LoadingDialog.hide() : null;
                 });
@@ -103,7 +103,7 @@ if (elApp) {
     // Remove the extra border spacing on the webpart
     let contentBox = document.querySelector("#contentBox table.ms-core-tableNoSpace");
     contentBox ? contentBox.classList.remove("ms-webpartPage-root") : null;
-    
+
     // Render the application
     GlobalVariable.render({ el: elApp });
 }
