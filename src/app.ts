@@ -12,6 +12,10 @@ import Strings from "./strings";
  * Main Application
  */
 export class App {
+    private _accordion: Components.IAccordion = null;
+    private _activeFilterClass: string = null;
+    private _activeSearchFilter: string = null;
+
     // Constructor
     constructor(el: HTMLElement) {
         // Set the list name
@@ -21,10 +25,22 @@ export class App {
         this.render(el);
     }
 
+    // Clears an item
+    private clearItem(elItem: HTMLElement) {
+        // Hide the item
+        elItem.classList.add("d-none");
+
+        // Remove the first/last item classes
+        elItem.classList.remove("first-item")
+        elItem.classList.remove("last-item")
+    }
+
     // Returns the FAQ icon as an SVG element
     private getFaqIcon(height?, width?, className?) {
+        // Set the default values
         if (height === void 0) { height = 30; }
         if (width === void 0) { width = 36; }
+
         // Get the icon element
         let elDiv = document.createElement("div");
         elDiv.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 14.16 18.128572'><path d='m 3.2561612,3.3927144 c 0.434,-0.232 0.901,-0.306 1.356,-0.306 0.526,0 1.138,0.173 1.632,0.577 0.517,0.424 0.868,1.074 0.868,1.922 0,0.975 -0.689,1.504 -1.077,1.802 l -0.085,0.066 c -0.424,0.333 -0.588,0.511 -0.588,0.882 a 0.75,0.75 0 0 1 -1.5,0 c 0,-1.134 0.711,-1.708 1.162,-2.062 0.513,-0.403 0.588,-0.493 0.588,-0.688 0,-0.397 -0.149,-0.622 -0.32,-0.761 a 1.115,1.115 0 0 0 -0.68,-0.239 c -0.295,0 -0.498,0.049 -0.65,0.13 -0.143,0.076 -0.294,0.21 -0.44,0.48 a 0.75060401,0.75060401 0 1 1 -1.3200002,-0.715 c 0.264,-0.486 0.612,-0.853 1.0540002,-1.089 z m 1.356,8.6929996 a 1.0000001,1.0000001 0 1 0 0,-2 1.0000001,1.0000001 0 0 0 0,2 z'/><path d='m 4.6121612,0.08571439 a 7.5,7.5 0 0 0 -6.797,10.67299961 l -0.725,2.842 a 1.25,1.25 0 0 0 1.504,1.524 c 0.74999994,-0.18 1.90299994,-0.457 2.9299998,-0.702 A 7.5,7.5 0 1 0 4.6121612,0.08571439 Z m -6,7.50000001 A 6,6 0 1 1 1.942161,12.960714 l -0.243,-0.121 -0.265,0.063 -2.7879998,0.667 c 0.2,-0.78 0.46199994,-1.812 0.68999994,-2.708 l 0.07,-0.276 -0.13,-0.253 A 5.971,5.971 0 0 1 -1.3878388,7.5857144 Z'/><path d='m 9.6121612,18.085714 c -1.97,0 -3.761,-0.759 -5.1,-2 h 0.1 c 0.718,0 1.415,-0.089 2.081,-0.257 0.864,0.482 1.86,0.757 2.92,0.757 0.9599998,0 1.8659998,-0.225 2.6689998,-0.625 l 0.243,-0.121 0.265,0.063 c 0.921,0.22 1.965,0.445 2.74,0.61 -0.176,-0.751 -0.415,-1.756 -0.642,-2.651 l -0.07,-0.276 0.13,-0.253 a 5.971,5.971 0 0 0 0.664,-2.747 5.995,5.995 0 0 0 -2.747,-5.0419996 8.443,8.443 0 0 0 -0.8,-2.047 7.503,7.503 0 0 1 4.344,10.2629996 c 0.253,1.008 0.51,2.1 0.672,2.803 a 1.244,1.244 0 0 1 -1.468,1.5 c -0.727,-0.152 -1.87,-0.396 -2.913,-0.64 a 7.476,7.476 0 0 1 -3.0879998,0.663 z'/></svg>";
@@ -41,16 +57,21 @@ export class App {
             } else {
                 icon.classList.add("icon-svg");
             }
+
             // Set the height/width
             height ? icon.setAttribute("height", (height).toString()) : null;
             width ? icon.setAttribute("width", (width).toString()) : null;
+
             // Hide the icon as non-interactive content from the accessibility API
             icon.setAttribute("aria-hidden", "true");
+
             // Update the styling
             icon.style.pointerEvents = "none";
+
             // Support for IE
             icon.setAttribute("focusable", "false");
         }
+
         // Return the icon
         return icon;
     }
@@ -62,6 +83,9 @@ export class App {
 
         // Render the accordion
         this.renderAccordion(el);
+
+        // Render the pagination
+        this.renderPagination(el);
 
         // Render the footer
         new Footer({
@@ -112,7 +136,7 @@ export class App {
         }
 
         // Render the accordion
-        Components.Accordion({
+        this._accordion = Components.Accordion({
             el,
             id: "accordion-list",
             items: accordionItems
@@ -128,6 +152,7 @@ export class App {
                 items: DataSource.CategoryFilters,
                 onFilter: (filter: string) => {
                     let className = filter ? filter.toLowerCase().replace(/ /g, "-") : null;
+                    this._activeFilterClass = className;
 
                     // Parse all accordion items
                     let items = el.querySelectorAll(".accordion-item");
@@ -136,6 +161,10 @@ export class App {
 
                         // Show the item
                         elItem.classList.remove("d-none");
+
+                        // Remove the first/last item classes
+                        elItem.classList.remove("first-item");
+                        elItem.classList.remove("last-item");
 
                         // See if a class name exists
                         if (className) {
@@ -146,6 +175,9 @@ export class App {
                             }
                         }
                     }
+
+                    // Render the pagination
+                    this.renderPagination(el);
                 }
             }]
         });
@@ -240,28 +272,11 @@ export class App {
                 el.querySelector("a.navbar-brand").classList.add("pe-none");
             },
             onSearch: value => {
-                // Remove the spaces from the value
-                value = (value ? value.trim() : "").toLowerCase();
+                // Set the search value
+                this._activeSearchFilter = (value || "").toLowerCase();
 
-                // Parse all accordion items
-                let items = el.querySelectorAll(".accordion-item");
-                for (let i = 0; i < items.length; i++) {
-                    let elItem = items[i] as HTMLElement;
-                    let elContent = elItem.querySelector(".accordion-body") as HTMLElement;
-
-                    // Show the item
-                    elItem.classList.remove("d-none");
-
-                    // See if a search value exists
-                    if (value) {
-                        // See if the item contains the search value
-                        if (elItem.innerText.toLowerCase().indexOf(value) < 0 &&
-                            elContent.innerText.toLowerCase().indexOf(value) < 0) {
-                            // Hide the item
-                            elItem.classList.add("d-none");
-                        }
-                    }
-                }
+                // Render the pagination
+                this.renderPagination(el);
             },
             onSearchRendered: (el) => {
                 el.setAttribute("placeholder", "Search all FAQ's");
@@ -382,6 +397,140 @@ export class App {
             ],
             onRendered: (el) => {
                 el.classList.remove("bg-light");
+            }
+        });
+    }
+
+    // Renders the pagination
+    private renderPagination(el: HTMLElement) {
+        // Get the pagination element
+        let elPagination = el.querySelector(".accordion-pagination") as HTMLElement;
+        if (elPagination) {
+            // Clear the element
+            while (elPagination.firstChild) { elPagination.removeChild(elPagination.firstChild); }
+        } else {
+            // Create the element
+            elPagination = document.createElement("div");
+            elPagination.classList.add("accordion-pagination");
+            el.appendChild(elPagination);
+        }
+
+        // Get the elements as an array
+        let elItems = Array.from(this._accordion.el.querySelectorAll(this._activeFilterClass ? "." + this._activeFilterClass : ".accordion-item"));
+
+        // See if a search value exists
+        if (this._activeSearchFilter) {
+            // Parse the items
+            for (let i = elItems.length - 1; i >= 0; i--) {
+                let elItem = elItems[i] as HTMLElement;
+                let elContent = elItem.querySelector(".accordion-body") as HTMLElement;
+
+                // See if this item is expanded
+                if (elItem.querySelector(".accordion-collapse.show")) {
+                    // Collapse the item
+                    let btn = elItem.querySelector(".accordion-button") as HTMLButtonElement;
+                    btn?.click();
+                }
+
+
+                // See if the item doesn't contains the search value
+                if (elItem.innerText.toLowerCase().indexOf(this._activeSearchFilter) < 0 &&
+                    elContent.innerText.toLowerCase().indexOf(this._activeSearchFilter) < 0) {
+                    // Clear the item
+                    this.clearItem(elItem);
+
+                    // Exclude the item from the array
+                    elItems.splice(i, 1);
+                }
+            }
+        }
+
+        // Parse the active items to show
+        for (let i = 0; i < Strings.PaginationLimit; i++) {
+            let elItem = elItems[i];
+
+            // Ensure the item exists
+            if (elItem) {
+                // Show the item
+                elItem.classList.remove("d-none");
+
+                // See if this is the first item
+                if (i == 0) { elItem.classList.add("first-item"); }
+            } else {
+                // Set the class for the last item
+                if (elItems[i - 1]) { elItems[i - 1].classList.add("last-item"); }
+
+                // Break from the loop
+                break;
+            }
+        }
+
+        // Parse the active items to hide
+        for (let i = Strings.PaginationLimit; i < elItems.length; i++) {
+            // Clear the item
+            this.clearItem(elItems[i] as HTMLElement);
+        }
+
+        // Ensure items exist
+        if (elItems.length > 0) {
+            // Ensure the first item is expanded
+            if (elItems[0].querySelector(".accordion-collapse.show") == null) {
+                // Hide the button
+                let btn = elItems[0].querySelector(".accordion-button") as HTMLButtonElement;
+                btn?.click();
+            }
+
+            // Set the first item class
+            elItems[0].classList.add("first-item");
+
+            // Set the last item class
+            let lastIdx = Strings.PaginationLimit - 1;
+            elItems[lastIdx < elItems.length ? lastIdx : elItems.length - 1].classList.add("last-item");
+        }
+
+        // Render the component
+        Components.Pagination({
+            el: elPagination,
+            className: "d-flex justify-content-end pt-2",
+            numberOfPages: Math.ceil(elItems.length / Strings.PaginationLimit),
+            onClick: (pageNumber) => {
+                // Parse the items
+                for (let i = 0; i < elItems.length; i++) {
+                    let elItem = elItems[i] as HTMLElement;
+
+                    // See if this item is expanded
+                    if (elItem.querySelector(".accordion-collapse.show")) {
+                        // Hide the button
+                        let btn = elItem.querySelector(".accordion-button") as HTMLButtonElement;
+                        btn?.click();
+                    }
+
+                    // Clear the item
+                    this.clearItem(elItem);
+                }
+
+                // Parse the items to show
+                let startIdx = (pageNumber - 1) * Strings.PaginationLimit;
+                for (let i = startIdx; i < startIdx + Strings.PaginationLimit && i < elItems.length; i++) {
+                    let elItem = elItems[i];
+
+                    // Show the item
+                    elItem.classList.remove("d-none");
+
+                    // See if this is the first item
+                    if (i == startIdx) {
+                        // Set the first item class
+                        elItem.classList.add("first-item");
+
+                        // Expand the item
+                        let btn = elItem.querySelector(".accordion-button") as HTMLButtonElement;
+                        btn?.click();
+                    }
+                }
+
+                // Set the last item class
+                let lastIdx = startIdx + Strings.PaginationLimit - 1;
+                elItems[lastIdx < elItems.length ? lastIdx : elItems.length - 1].classList.add("last-item");
             }
         });
     }
