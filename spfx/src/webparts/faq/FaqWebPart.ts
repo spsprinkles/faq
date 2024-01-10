@@ -62,6 +62,7 @@ export default class FaqWebPart extends BaseClientSideWebPart<IFaqWebPartProps> 
       context: this.context,
       displayMode: this.displayMode,
       enableLoading: this.properties.enableLoading,
+      paginationLimit: this.properties.paginationLimit,
       envType: Environment.type,
       title: this.properties.title,
       viewName: this.properties.viewName,
