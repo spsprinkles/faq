@@ -23,6 +23,10 @@
     margin: .1rem .25rem .088rem -.25rem;
 }
 
+nav.footer #navbar_content {
+    height: 1.5rem;
+}
+
 /* Set styling for navbar-sub */
 .navbar-sub {
     background-color: color-mix(in srgb, var(--sp-black, #000000), transparent 95%);
