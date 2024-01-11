@@ -170,7 +170,6 @@ export class App {
             navigation: {
                 itemsEnd: this.generateNavItems(),
                 searchPlaceholder: "Search all FAQ's",
-                showFilter: false,
                 showSearch: true,
                 title: Strings.ProjectName,
                 onRendering: props => {
@@ -193,15 +192,11 @@ export class App {
                 }
             },
             subNavigation: {
-                showFilter: false,
-                showSearch: false,
                 onRendering: props => {
                     props.className = "navbar-sub rounded-bottom";
                 },
                 onRendered: (el) => {
                     el.classList.remove("bg-light");
-                },
-                onFilterRendered: el => {
                 },
                 itemsEnd: [
                     {
