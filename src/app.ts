@@ -447,10 +447,13 @@ export class App {
 
         // Parse the active items to show
         for (let i = 0; i < Strings.PaginationLimit; i++) {
-            let elItem = elItems[i];
+            let elItem = elItems[i] as HTMLElement;
 
             // Ensure the item exists
             if (elItem) {
+                // Clear the item
+                this.clearItem(elItem);
+
                 // Show the item
                 elItem.classList.remove("d-none");
 
