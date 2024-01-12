@@ -170,6 +170,7 @@ export class App {
             navigation: {
                 itemsEnd: this.generateNavItems(),
                 searchPlaceholder: "Search all FAQ's",
+                showFilter: false,
                 showSearch: true,
                 title: Strings.ProjectName,
                 onRendering: props => {
