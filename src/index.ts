@@ -4,6 +4,7 @@ import { App } from "./app";
 import { Configuration } from "./cfg";
 import { DataSource } from "./ds";
 import { InstallationModal } from "./install";
+import { Security } from "./security";
 import Strings, { setContext } from "./strings";
 
 // Styling
@@ -33,7 +34,7 @@ const GlobalVariable = {
     paginationLimit: Strings.PaginationLimit,
     render: (props: IProps) => {
         // Set the EnableLoading value from SPFx settings
-        (typeof props.enableLoading === typeof undefined) ? null : Strings.EnableLoading = props.enableLoading;
+        (typeof (props.enableLoading) === "undefined") ? null : Strings.EnableLoading = props.enableLoading;
 
         // Show a loading dialog
         LoadingDialog.setHeader("Loading FAQ App");
@@ -73,18 +74,26 @@ const GlobalVariable = {
                 waitForTheme().then(() => {
                     // Create the application
                     GlobalVariable.App = new App(props.el);
-                    
+
                     // Hide the loading dialog
                     Strings.EnableLoading ? LoadingDialog.hide() : null;
                 });
             },
             // Error
             () => {
-                // Show the installation modal
-                InstallationModal.show();
+                // See if the user has the correct permissions
+                Security.hasPermissions().then(hasPermissions => {
+                    // See if the user has permissions
+                    if (hasPermissions) {
+                        // Show the installation modal
+                        InstallationModal.show();
+                    } else {
+                        // TODO: Dade add something here
+                    }
 
-                // Hide the loading dialog
-                Strings.EnableLoading ? LoadingDialog.hide() : null;
+                    // Hide the loading dialog
+                    Strings.EnableLoading ? LoadingDialog.hide() : null;
+                });
             });
     },
     title: Strings.ProjectName,
@@ -103,7 +112,7 @@ if (elApp) {
     // Remove the extra border spacing on the webpart
     let contentBox = document.querySelector("#contentBox table.ms-core-tableNoSpace");
     contentBox ? contentBox.classList.remove("ms-webpartPage-root") : null;
-    
+
     // Render the application
     GlobalVariable.render({ el: elApp });
 }
