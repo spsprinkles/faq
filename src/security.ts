@@ -107,6 +107,11 @@ export class Security {
         });
     }
 
+    static hasPermissions():PromiseLike<boolean> {
+        // See if the user has permissions
+        return this._listSecurity.checkUserPermissions();
+    }
+
     // Displays the security group configuration
     static show(onComplete: () => void) {
         // Create the groups
