@@ -138,10 +138,10 @@ export class App {
             el,
             accordion: {
                 items: DataSource.FaqList.Items,
-                bodyField: "Answer",
-                filterField: "Category",
+                bodyFields: ["Answer"],
+                filterFields: ["Category"],
                 paginationLimit: Strings.PaginationLimit,
-                titleField: "Title"
+                titleFields: ["Title"]
             },
             filters: {
                 items: [{
