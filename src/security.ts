@@ -36,7 +36,7 @@ export class Security {
     static get VisitorGroup(): Types.SP.Group { return this._visitorGroup; }
 
     // Manager Emails
-    private static _managerEmails: Array<string> = null;
+    private static _managerEmails: Array<string> = [];
     static get ManagerEmails(): Array<string> { return this._managerEmails; }
 
     // Initializes the class
