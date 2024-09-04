@@ -14,7 +14,7 @@ export interface IFaqWebPartProps {
 }
 
 // Reference the solution
-import "../../../../dist/faq.min.js";
+import "main-lib";
 declare const FaqApp: {
   description: string;
   enableLoading: boolean;
