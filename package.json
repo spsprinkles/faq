@@ -17,12 +17,12 @@
   },
   "license": "MIT",
   "dependencies": {
-    "datatables.net": "^1.13.8",
-    "datatables.net-bs5": "^1.13.8",
-    "dattatable": "^2.9.42",
-    "gd-sprest-bs": "^10.10.98",
+    "datatables.net": "^2.1.5",
+    "datatables.net-bs5": "^2.1.5",
+    "dattatable": "^2.10.95",
+    "gd-sprest-bs": "^10.11.98",
     "jquery": "^3.7.1",
-    "moment": "^2.29.4"
+    "moment": "^2.30.1"
   },
   "devDependencies": {
     "@babel/core": "^7.23.6",
