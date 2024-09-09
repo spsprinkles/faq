@@ -1,15 +1,21 @@
 {
   "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
     "isCreatingSolution": true,
-    "environment": "spo",
+    "nodeVersion": "18.19.0",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.12.0"
+    },
     "version": "1.18.2",
     "libraryName": "faq",
     "libraryId": "3b72a629-97f4-488c-ad35-55abe0c5aac3",
+    "environment": "spo",
     "packageManager": "npm",
+    "solutionName": "faq",
+    "solutionShortDescription": "A frequently asked questions webpart",
+    "skipFeatureDeployment": true,
     "isDomainIsolated": false,
-    "componentType": "webpart",
-    "sdkVersions": {
-      "@microsoft/teams-js": "2.12.0"
-    }
+    "componentType": "webpart"
   }
 }
