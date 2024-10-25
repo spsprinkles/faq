@@ -23,12 +23,12 @@ export class DataSource {
     static init(viewName?: string): PromiseLike<any> {
         // Return a promise
         return new Promise((resolve, reject) => {
-            return Promise.all([
-                // Load the security
-                Security.init(),
-                // Load the data
-                this.load(viewName)
-            ]).then(resolve, reject);
+            // Load the data
+            this.load(viewName).then(() => {
+                // Load the security to determine if this is a manager
+                // Resolve if the user doesn't have access to the groups
+                Security.init().then(resolve, resolve);
+            }, reject);
         });
     }
 
