@@ -197,7 +197,7 @@ export class App {
                     props.brand = div;
                 },
                 onRendered: (el) => {
-                    el.querySelector("a.navbar-brand").classList.add("pe-none");
+                    el.querySelector(".navbar-brand").classList.add("pe-none");
                 }
             },
             subNavigation: {
