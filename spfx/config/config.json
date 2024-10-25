@@ -14,7 +14,7 @@
   "externals": {
     "main-lib": {
       "globalName": "main-lib",
-      "path": "../dist/custom-script-request.js"
+      "path": "../dist/faq.js"
     }
   },
   "localizedResources": {
