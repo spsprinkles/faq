@@ -22,8 +22,8 @@ export class InstallationModal {
 
                 // Add an error
                 customErrors.push({
-                    content: "Security groups are not installed.",
-                    type: Components.ListGroupItemTypes.Danger
+                    content: "Security groups is not installed.",
+                    type: Components.ListGroupItemTypes.Warning
                 });
             }
 
