@@ -12,14 +12,14 @@ export class Security {
     // Admin
     private static _isAdmin: boolean = false;
     static get IsAdmin(): boolean { return this._isAdmin; }
-    private static _adminGroup: Types.SP.Group = null;
-    static get AdminGroup(): Types.SP.Group { return this._adminGroup; }
+    private static _adminGroup: Types.SP.GroupOData = null;
+    static get AdminGroup(): Types.SP.GroupOData { return this._adminGroup; }
 
     // FAQ Manager
     private static _isFAQMgr: boolean = false;
     static get IsFAQMgr(): boolean { return this._isFAQMgr; }
-    private static _faqMgrGroup: Types.SP.Group = null;
-    static get FAQMgrGroup(): Types.SP.Group { return this._faqMgrGroup; }
+    private static _faqMgrGroup: Types.SP.GroupOData = null;
+    static get FAQMgrGroup(): Types.SP.GroupOData { return this._faqMgrGroup; }
     private static _faqMgrGroupInfo: Types.SP.GroupCreationInformation = {
         AllowMembersEditMembership: false,
         Description: Strings.SecurityGroups.Managers.Description,
@@ -28,12 +28,12 @@ export class Security {
     };
 
     // Members
-    private static _memberGroup: Types.SP.Group = null;
-    static get MemberGroup(): Types.SP.Group { return this._memberGroup; }
+    private static _memberGroup: Types.SP.GroupOData = null;
+    static get MemberGroup(): Types.SP.GroupOData { return this._memberGroup; }
 
     // Visitors
-    private static _visitorGroup: Types.SP.Group = null;
-    static get VisitorGroup(): Types.SP.Group { return this._visitorGroup; }
+    private static _visitorGroup: Types.SP.GroupOData = null;
+    static get VisitorGroup(): Types.SP.GroupOData { return this._visitorGroup; }
 
     // Manager Emails
     private static _managerEmails: Array<string> = [];
