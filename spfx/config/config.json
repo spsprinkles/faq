@@ -14,7 +14,7 @@
   "externals": {
     "main-lib": {
       "globalName": "main-lib",
-      "path": "../dist/faq.js"
+      "path": "../dist/faq.min.js"
     }
   },
   "localizedResources": {

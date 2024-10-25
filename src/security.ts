@@ -107,7 +107,7 @@ export class Security {
         });
     }
 
-    static hasPermissions():PromiseLike<boolean> {
+    static hasPermissions(): PromiseLike<boolean> {
         // See if the user has permissions
         return this._listSecurity.checkUserPermissions();
     }

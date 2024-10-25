@@ -12,8 +12,8 @@
     "libraryId": "3b72a629-97f4-488c-ad35-55abe0c5aac3",
     "environment": "spo",
     "packageManager": "npm",
-    "solutionName": "Faq",
-    "solutionShortDescription": "Faq description",
+    "solutionName": "faq",
+    "solutionShortDescription": "A frequently asked questions webpart",
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,
     "componentType": "webpart"
