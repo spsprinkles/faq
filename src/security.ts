@@ -84,13 +84,13 @@ export class Security {
 
                     // Set the user flags
                     this._isAdmin = this._listSecurity.CurrentUser.IsSiteAdmin || this._listSecurity.isInGroup(ContextInfo.userId, ListSecurityDefaultGroups.Owners);
-                    this._isFAQMgr = this._listSecurity.isInGroup(ContextInfo.userId, this._faqMgrGroupInfo.Title);
+                    this._isFAQMgr = this._faqMgrGroup ? this._listSecurity.isInGroup(ContextInfo.userId, this._faqMgrGroupInfo.Title) : false;
 
-                    // Ensure the groups exist
-                    if (this._adminGroup && this._faqMgrGroup && this._memberGroup && this._visitorGroup) {
+                    // Ensure the required groups exist
+                    if (this._adminGroup && this._memberGroup && this._visitorGroup) {
                         // Set the manager emails
                         this._managerEmails = [];
-                        let users = this._listSecurity.getGroupUsers(this._faqMgrGroupInfo.Title);
+                        let users = this._listSecurity.getGroupUsers(this._faqMgrGroupInfo?.Title || ListSecurityDefaultGroups.Owners);
                         for (let i = 0; i < users.length; i++) {
                             // Add the email
                             users[i].Email ? this._managerEmails.push(users[i].Email) : null;
