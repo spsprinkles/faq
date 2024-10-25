@@ -2,7 +2,6 @@
 logs
 *.log
 npm-debug.log*
-*-lock*
 
 # Dependency directories
 node_modules
@@ -14,6 +13,7 @@ release
 solution
 temp
 *.sppkg
+.heft
 
 # Coverage directory used by tools like istanbul
 coverage
