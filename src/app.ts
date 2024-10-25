@@ -45,6 +45,7 @@ export class App {
 
         // Add Admin only items
         if (Security.IsAdmin) {
+            // Add the app settings
             itemsEnd[0].items.unshift(
                 {
                     text: "App Settings",
@@ -54,14 +55,21 @@ export class App {
                     }
                 }
             );
-            itemsEnd[0].items.push(
-                {
+
+            // See if the FAQ Manager exists
+            if (Security.FAQMgrGroup) {
+                // Add the security group
+                itemsEnd[0].items.push({
                     text: Security.FAQMgrGroup.Title + " Group",
                     onClick: () => {
                         // Show the settings in a new tab
                         window.open(Strings.SourceUrl + "/_layouts/15/people.aspx?MembershipGroupId=" + Security.FAQMgrGroup.Id);
                     }
-                },
+                });
+            }
+
+            // Add the default security groups
+            itemsEnd[0].items.push(
                 {
                     text: Security.AdminGroup.Title + " Group",
                     onClick: () => {
