@@ -25,14 +25,8 @@ const Strings = {
     PaginationLimit: 10,
     ProjectDescription: "This is a frequently asked questions webpart",
     ProjectName: "FAQ",
-    SecurityGroups: {
-        Managers: {
-            Name: "FAQ Managers",
-            Description: "The FAQ managers."
-        }
-    },
     SourceUrl: ContextInfo.webServerRelativeUrl,
-    Version: "0.1.4",
+    Version: "0.1.6",
     ViewName: "All Approved"
 };
 export default Strings;
