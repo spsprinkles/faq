@@ -86,22 +86,21 @@ export class Security {
                     this._isAdmin = this._listSecurity.CurrentUser.IsSiteAdmin || this._listSecurity.isInGroup(ContextInfo.userId, ListSecurityDefaultGroups.Owners);
                     this._isFAQMgr = this._faqMgrGroup ? this._listSecurity.isInGroup(ContextInfo.userId, this._faqMgrGroupInfo.Title) : false;
 
-                    // Ensure the required groups exist
-                    if (this._adminGroup && this._memberGroup && this._visitorGroup) {
+                    // Clear the manager emails
+                    this._managerEmails = [];
+
+                    // See if the faq or admin group exists
+                    if (this._adminGroup || this._faqMgrGroup) {
                         // Set the manager emails
-                        this._managerEmails = [];
-                        let users = this._listSecurity.getGroupUsers(this._faqMgrGroupInfo?.Title || ListSecurityDefaultGroups.Owners);
+                        let users = this._listSecurity.getGroupUsers(this._faqMgrGroup.Title || this._adminGroup.Title);
                         for (let i = 0; i < users.length; i++) {
-                            // Add the email
+                            // Add the email if it exists
                             users[i].Email ? this._managerEmails.push(users[i].Email) : null;
                         }
-
-                        // Resolve the request
-                        resolve();
-                    } else {
-                        // Reject the request
-                        reject();
                     }
+
+                    // Resolve the request
+                    resolve();
                 }
             });
         });
