@@ -15,18 +15,6 @@ export class Security {
     private static _adminGroup: Types.SP.GroupOData = null;
     static get AdminGroup(): Types.SP.GroupOData { return this._adminGroup; }
 
-    // FAQ Manager
-    private static _isFAQMgr: boolean = false;
-    static get IsFAQMgr(): boolean { return this._isFAQMgr; }
-    private static _faqMgrGroup: Types.SP.GroupOData = null;
-    static get FAQMgrGroup(): Types.SP.GroupOData { return this._faqMgrGroup; }
-    private static _faqMgrGroupInfo: Types.SP.GroupCreationInformation = {
-        AllowMembersEditMembership: false,
-        Description: Strings.SecurityGroups.Managers.Description,
-        OnlyAllowMembersViewMembership: false,
-        Title: Strings.SecurityGroups.Managers.Name
-    };
-
     // Members
     private static _memberGroup: Types.SP.GroupOData = null;
     static get MemberGroup(): Types.SP.GroupOData { return this._memberGroup; }
@@ -35,23 +23,13 @@ export class Security {
     private static _visitorGroup: Types.SP.GroupOData = null;
     static get VisitorGroup(): Types.SP.GroupOData { return this._visitorGroup; }
 
-    // Manager Emails
-    private static _managerEmails: Array<string> = [];
-    static get ManagerEmails(): Array<string> { return this._managerEmails; }
-
     // Initializes the class
     static init(): PromiseLike<void> {
         // Return a promise
         return new Promise((resolve, reject) => {
             this._listSecurity = new ListSecurity({
-                groups: [this._faqMgrGroupInfo],
                 webUrl: Strings.SourceUrl,
                 listItems: [
-                    {
-                        listName: Strings.Lists.FAQ,
-                        groupName: this._faqMgrGroupInfo.Title,
-                        permission: SPTypes.RoleType.WebDesigner
-                    },
                     {
                         listName: Strings.Lists.FAQ,
                         groupName: ListSecurityDefaultGroups.Owners,
@@ -78,26 +56,11 @@ export class Security {
                 onGroupsLoaded: () => {
                     // Set the groups
                     this._adminGroup = this._listSecurity.getGroup(ListSecurityDefaultGroups.Owners);
-                    this._faqMgrGroup = this._listSecurity.getGroup(this._faqMgrGroupInfo.Title);
                     this._memberGroup = this._listSecurity.getGroup(ListSecurityDefaultGroups.Members);
                     this._visitorGroup = this._listSecurity.getGroup(ListSecurityDefaultGroups.Visitors);
 
                     // Set the user flags
                     this._isAdmin = this._listSecurity.CurrentUser.IsSiteAdmin || this._listSecurity.isInGroup(ContextInfo.userId, ListSecurityDefaultGroups.Owners);
-                    this._isFAQMgr = this._faqMgrGroup ? this._listSecurity.isInGroup(ContextInfo.userId, this._faqMgrGroupInfo.Title) : false;
-
-                    // Clear the manager emails
-                    this._managerEmails = [];
-
-                    // See if the faq or admin group exists
-                    if (this._adminGroup || this._faqMgrGroup) {
-                        // Set the manager emails
-                        let users = this._listSecurity.getGroupUsers(this._faqMgrGroup.Title || this._adminGroup.Title);
-                        for (let i = 0; i < users.length; i++) {
-                            // Add the email if it exists
-                            users[i].Email ? this._managerEmails.push(users[i].Email) : null;
-                        }
-                    }
 
                     // Resolve the request
                     resolve();

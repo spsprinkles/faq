@@ -20,9 +20,10 @@ export class App {
 
     // Renders the navigation
     private generateNavItems() {
-        // Create the settings menu items
         let itemsEnd: Components.INavbarItem[] = [];
-        if (Security.IsAdmin || Security.IsFAQMgr) {
+
+        // Create the settings menu items
+        if (Security.IsAdmin) {
             itemsEnd.push(
                 {
                     className: "btn-icon btn-outline-light me-2 p-2 py-1",
@@ -55,18 +56,6 @@ export class App {
                     }
                 }
             );
-
-            // See if the FAQ Manager exists
-            if (Security.FAQMgrGroup) {
-                // Add the security group
-                itemsEnd[0].items.push({
-                    text: Security.FAQMgrGroup.Title + " Group",
-                    onClick: () => {
-                        // Show the settings in a new tab
-                        window.open(Strings.SourceUrl + "/_layouts/15/people.aspx?MembershipGroupId=" + Security.FAQMgrGroup.Id);
-                    }
-                });
-            }
 
             // Add the default security groups
             itemsEnd[0].items.push(
@@ -298,27 +287,6 @@ export class App {
             },
             onSetHeader: el => {
                 el.querySelector("h5").innerText = "Ask a Question";
-            },
-            onSave: (props) => {
-                let categories = props.Category.results;
-
-                // See if item is created
-                Utility().sendEmail({
-                    To: Security.ManagerEmails,
-                    Subject: "New FAQ Request",
-                    Body: [
-                        "<p>FAQ Managers,</p>",
-                        "\t<p>" + ContextInfo.userDisplayName + " has created a new FAQ request.<br />",
-                        "<b>Category(ies):</b> " + categories + "<br />",
-                        "<b>Question:</b> " + props.Title + "<br />",
-                        "<a href=\"" + ContextInfo.webAbsoluteUrl + "/Lists/" + Strings.Lists.FAQ + "\">Click here</a> to view the request.</p>",
-                        "<p>Thank you,</p>",
-                        "<p>FAQ Managers</p>"
-                    ].join('\n<br/>\n')
-                }).execute();
-
-                // Return the properties
-                return props;
             }
         });
     }
