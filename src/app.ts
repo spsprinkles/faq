@@ -156,7 +156,7 @@ export class App {
                     el.querySelector("nav.footer .container-fluid").classList.add("p-0");
                 },
                 itemsEnd: [{
-                    className: "pe-none text-body",
+                    className: "pe-none",
                     text: "v" + Strings.Version,
                     onRender: (el) => {
                         // Hide version footer in a modern page
