@@ -1,5 +1,5 @@
 import { LoadingDialog, waitForTheme } from "dattatable";
-import { ContextInfo, ThemeManager } from "gd-sprest-bs";
+import { Components, ContextInfo, ThemeManager } from "gd-sprest-bs";
 import { App } from "./app";
 import { Configuration } from "./cfg";
 import { DataSource } from "./ds";
@@ -88,7 +88,12 @@ const GlobalVariable = {
                         // Show the installation modal
                         InstallationModal.show();
                     } else {
-                        // TODO: Dade add something here
+                        // Render an alert
+                        Components.Alert({
+                            header: "Permissions Issue",
+                            content: "You do not have read access to the FAQ list. Please contact your admin to grant access for your account.",
+                            type: Components.AlertTypes.Danger
+                        });
                     }
 
                     // Hide the loading dialog
