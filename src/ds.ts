@@ -23,12 +23,12 @@ export class DataSource {
     static init(viewName?: string): PromiseLike<any> {
         // Return a promise
         return new Promise((resolve, reject) => {
-            // Load the data
-            this.load(viewName).then(() => {
-                // Load the security to determine if this is a manager
-                // Resolve if the user doesn't have access to the groups
-                Security.init().then(resolve, resolve);
-            }, reject);
+            // Initialize the security first
+            // If the list doesn't exist, then it will require the Security class to be initialized
+            Security.init().then(() => {
+                // Load the data
+                this.load(viewName).then(resolve, reject);
+            });
         });
     }
 
