@@ -1,6 +1,6 @@
 {
   "name": "faq",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "A basic faq.",
   "main": "src/index.ts",
   "scripts": {
