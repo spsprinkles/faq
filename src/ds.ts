@@ -59,8 +59,8 @@ export class DataSource {
                     for (let i = 0; i < this.FaqList.Items.length; i++) {
                         let item = this.FaqList.Items[i];
 
-                        // Parse the selected categores
-                        let categories = item.Category ? item.Category.results : [];
+                        // Parse the selected categories
+                        let categories = item.Category ? (typeof (item.Category) === "string" ? [item.Category] : item.Category.results) : [];
                         for (let j = 0; j < categories.length; j++) {
                             let category = categories[j];
 
