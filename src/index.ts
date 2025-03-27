@@ -72,11 +72,11 @@ const GlobalVariable = {
 
                 // Wait for the theme to be loaded
                 waitForTheme().then(() => {
-                    // Create the application
-                    GlobalVariable.App = new App(props.el);
-
                     // Hide the loading dialog
                     Strings.EnableLoading ? LoadingDialog.hide() : null;
+
+                    // Create the application
+                    GlobalVariable.App = new App(props.el);
                 });
             },
             // Error

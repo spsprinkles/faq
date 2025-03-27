@@ -56,7 +56,7 @@ export class DataSource {
                     this._categoryFilters = [];
 
                     // Parse the items
-                    for (let i = 0; i < this.FaqList.Items.length; i++) {
+                    for (let i = 0; i < this.FaqList.Items?.length; i++) {
                         let item = this.FaqList.Items[i];
 
                         // Parse the selected categories
