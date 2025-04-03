@@ -1,5 +1,5 @@
 import { DisplayMode, Environment, Version } from '@microsoft/sp-core-library';
-import { IPropertyPaneConfiguration, PropertyPaneCheckbox, PropertyPaneLabel, PropertyPaneSlider, PropertyPaneTextField } from '@microsoft/sp-property-pane';
+import { IPropertyPaneConfiguration, PropertyPaneCheckbox, PropertyPaneLabel, PropertyPaneSlider, PropertyPaneTextField, PropertyPaneToggle } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart, WebPartContext } from '@microsoft/sp-webpart-base';
 import { IReadonlyTheme } from '@microsoft/sp-component-base';
 import * as strings from 'FaqWebPartStrings';
@@ -8,6 +8,7 @@ export interface IFaqWebPartProps {
   enableLoading: boolean;
   listName: string;
   paginationLimit: number;
+  showCategory: boolean;
   title: string;
   viewName: string;
   webUrl: string;
@@ -26,6 +27,7 @@ declare const FaqApp: {
     enableLoading?: boolean;
     envType?: number;
     paginationLimit?: number;
+    showCategory?: boolean;
     title?: string;
     viewName?: string;
     listName?: string;
@@ -49,7 +51,7 @@ export default class FaqWebPart extends BaseClientSideWebPart<IFaqWebPartProps> 
     }
 
     // Set the default property values
-    if (typeof(this.properties.enableLoading) === "undefined") { this.properties.enableLoading = FaqApp.enableLoading; }
+    if (typeof (this.properties.enableLoading) === "undefined") { this.properties.enableLoading = FaqApp.enableLoading; }
     if (!this.properties.listName) { this.properties.listName = FaqApp.listName; }
     if (!this.properties.paginationLimit) { this.properties.paginationLimit = FaqApp.paginationLimit; }
     if (!this.properties.title) { this.properties.title = FaqApp.title; }
@@ -64,6 +66,7 @@ export default class FaqWebPart extends BaseClientSideWebPart<IFaqWebPartProps> 
       enableLoading: this.properties.enableLoading,
       paginationLimit: this.properties.paginationLimit,
       envType: Environment.type,
+      showCategory: this.properties.showCategory,
       title: this.properties.title,
       viewName: this.properties.viewName,
       listName: this.properties.listName,
@@ -111,6 +114,12 @@ export default class FaqWebPart extends BaseClientSideWebPart<IFaqWebPartProps> 
                 PropertyPaneTextField('viewName', {
                   label: strings.ViewNameFieldLabel,
                   description: strings.ViewNameFieldDescription
+                }),
+                PropertyPaneToggle('showCategory', {
+                  label: "Show Category",
+                  checked: this.properties.showCategory,
+                  offText: "The category will not be displayed.",
+                  onText: "The category will be displayed."
                 }),
                 PropertyPaneSlider('paginationLimit', {
                   label: strings.PaginationLimitFieldLabel,
