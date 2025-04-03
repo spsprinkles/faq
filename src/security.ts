@@ -24,24 +24,24 @@ export class Security {
     static get VisitorGroup(): Types.SP.GroupOData { return this._visitorGroup; }
 
     // Initializes the class
-    static init(): PromiseLike<void> {
+    static init(listName: string = Strings.Lists.FAQ): PromiseLike<void> {
         // Return a promise
         return new Promise((resolve, reject) => {
             this._listSecurity = new ListSecurity({
                 webUrl: Strings.SourceUrl,
                 listItems: [
                     {
-                        listName: Strings.Lists.FAQ,
+                        listName,
                         groupName: ListSecurityDefaultGroups.Owners,
                         permission: SPTypes.RoleType.Administrator
                     },
                     {
-                        listName: Strings.Lists.FAQ,
+                        listName,
                         groupName: ListSecurityDefaultGroups.Members,
                         permission: SPTypes.RoleType.Contributor
                     },
                     {
-                        listName: Strings.Lists.FAQ,
+                        listName,
                         groupName: ListSecurityDefaultGroups.Visitors,
                         permission: SPTypes.RoleType.Contributor
                     }

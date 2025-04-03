@@ -26,7 +26,7 @@ const Strings = {
     ProjectDescription: "This is a frequently asked questions webpart",
     ProjectName: "FAQ",
     SourceUrl: ContextInfo.webServerRelativeUrl,
-    Version: "0.1.8",
+    Version: "0.1.9",
     ViewName: "All Approved"
 };
 export default Strings;

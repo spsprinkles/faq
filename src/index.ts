@@ -27,7 +27,7 @@ interface IProps {
 
 // Create the global variable for this solution
 const GlobalVariable = {
-    App: null,
+    App: {},
     Configuration,
     description: Strings.ProjectDescription,
     enableLoading: Strings.EnableLoading,
@@ -53,7 +53,6 @@ const GlobalVariable = {
             // See if the list name is set
             if (props.listName) {
                 // Update the configuration
-                Strings.Lists.FAQ = props.listName;
                 Configuration._configuration.ListCfg[0].ListInformation.Title = props.listName;
             }
         }
@@ -65,7 +64,8 @@ const GlobalVariable = {
         props.title ? Strings.ProjectName = props.title : null;
 
         // Initialize the application
-        DataSource.init(props.viewName).then(
+        let ds = new DataSource();
+        ds.init(props.listName, props.viewName).then(
             // Success
             () => {
                 // Update the loading dialog
@@ -77,7 +77,7 @@ const GlobalVariable = {
                     Strings.EnableLoading ? LoadingDialog.hide() : null;
 
                     // Create the application
-                    GlobalVariable.App = new App(props.el, props.showCategory);
+                    GlobalVariable.App[props.context.instanceId] = new App(ds, props.el, props.showCategory);
                 });
             },
             // Error

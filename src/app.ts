@@ -12,8 +12,12 @@ import Strings from "./strings";
  * Main Application
  */
 export class App {
+    private _ds: DataSource = null;
+
     // Constructor
-    constructor(el: HTMLElement, showCategory: boolean) {
+    constructor(ds: DataSource, el: HTMLElement, showCategory: boolean) {
+        this._ds = ds;
+
         // Render the dashboard
         this.render(el, showCategory);
     }
@@ -33,10 +37,10 @@ export class App {
                     isButton: true,
                     items: [
                         {
-                            text: "Manage " + Strings.Lists.FAQ + " list",
+                            text: "Manage " + this._ds.FaqList.ListName + " list",
                             onClick: () => {
                                 // Show the FAQ list in a new tab
-                                window.open(Strings.SourceUrl + "/Lists/" + Strings.Lists.FAQ, "_blank");
+                                window.open(this._ds.FaqList.ListUrl, "_blank");
                             }
                         }
                     ]
@@ -134,7 +138,7 @@ export class App {
         let dashboard = new Dashboard({
             el,
             accordion: {
-                items: DataSource.FaqList.Items,
+                items: this._ds.FaqList.Items,
                 bodyFields: ["Answer"],
                 filterFields: ["Category"],
                 paginationLimit: Strings.PaginationLimit,
@@ -144,7 +148,7 @@ export class App {
             filters: {
                 items: [{
                     header: "By Category",
-                    items: DataSource.CategoryFilters
+                    items: this._ds.CategoryFilters
                 }]
             },
             footer: {
@@ -270,7 +274,7 @@ export class App {
     // Displays the new form
     private showNewForm() {
         // Display the new form
-        DataSource.FaqList.newForm({
+        this._ds.FaqList.newForm({
             webUrl: Strings.SourceUrl,
             onCreateEditForm: props => {
                 // Update the fields to display
