@@ -1,10 +1,11 @@
 import { DisplayMode, Environment, Version } from '@microsoft/sp-core-library';
-import { IPropertyPaneConfiguration, PropertyPaneCheckbox, PropertyPaneLabel, PropertyPaneSlider, PropertyPaneTextField, PropertyPaneToggle } from '@microsoft/sp-property-pane';
+import { IPropertyPaneConfiguration, PropertyPaneLabel, PropertyPaneSlider, PropertyPaneTextField, PropertyPaneToggle } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart, WebPartContext } from '@microsoft/sp-webpart-base';
 import { IReadonlyTheme } from '@microsoft/sp-component-base';
 import * as strings from 'FaqWebPartStrings';
 
 export interface IFaqWebPartProps {
+  allowMultipleFilters: boolean;
   enableLoading: boolean;
   listName: string;
   paginationLimit: number;
@@ -21,6 +22,7 @@ declare const FaqApp: {
   enableLoading: boolean;
   listName: string;
   render: (props: {
+    allowMultipleFilters?: boolean;
     el: HTMLElement;
     context?: WebPartContext;
     displayMode?: DisplayMode;
@@ -60,6 +62,7 @@ export default class FaqWebPart extends BaseClientSideWebPart<IFaqWebPartProps> 
 
     // Render the application
     FaqApp.render({
+      allowMultipleFilters: this.properties.allowMultipleFilters,
       el: this.domElement,
       context: this.context,
       displayMode: this.displayMode,
@@ -115,6 +118,12 @@ export default class FaqWebPart extends BaseClientSideWebPart<IFaqWebPartProps> 
                   label: strings.ViewNameFieldLabel,
                   description: strings.ViewNameFieldDescription
                 }),
+                PropertyPaneToggle('allowMultipleFilters', {
+                  label: "Allow Multiple Filters",
+                  checked: this.properties.allowMultipleFilters,
+                  offText: "You will be restricted to a single category when filtering.",
+                  onText: "You will be able to select multiple filters for the category."
+                }),
                 PropertyPaneToggle('showCategory', {
                   label: "Show Category",
                   checked: this.properties.showCategory,
@@ -127,11 +136,11 @@ export default class FaqWebPart extends BaseClientSideWebPart<IFaqWebPartProps> 
                   min: 1,
                   showValue: true
                 }),
-                PropertyPaneLabel('loadingLabel', {
-                  text: strings.EnableLoadingFieldLabel
-                }),
-                PropertyPaneCheckbox("enableLoading", {
-                  text: "Enabled"
+                PropertyPaneToggle("enableLoading", {
+                  label: strings.EnableLoadingFieldLabel,
+                  checked: this.properties.enableLoading,
+                  onText: "The loading dialog will be displayed.",
+                  offText: "The loading dialog will not be displayed."
                 }),
                 PropertyPaneLabel('version', {
                   text: "v" + FaqApp.version

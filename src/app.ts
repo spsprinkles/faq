@@ -15,11 +15,11 @@ export class App {
     private _ds: DataSource = null;
 
     // Constructor
-    constructor(ds: DataSource, el: HTMLElement, showCategory: boolean) {
+    constructor(ds: DataSource, el: HTMLElement, allowMultipleFilters: boolean, showCategory: boolean) {
         this._ds = ds;
 
         // Render the dashboard
-        this.render(el, showCategory);
+        this.render(el, allowMultipleFilters, showCategory);
     }
 
     // Renders the navigation
@@ -133,7 +133,7 @@ export class App {
     }
 
     // Renders the dashboard
-    private render(el: HTMLElement, showCategory: boolean) {
+    private render(el: HTMLElement, allowMultipleFilters: boolean, showCategory: boolean) {
         // Render the accordion
         let dashboard = new Dashboard({
             el,
@@ -148,7 +148,8 @@ export class App {
             filters: {
                 items: [{
                     header: "By Category",
-                    items: this._ds.CategoryFilters
+                    items: this._ds.CategoryFilters,
+                    multi: allowMultipleFilters
                 }]
             },
             footer: {
