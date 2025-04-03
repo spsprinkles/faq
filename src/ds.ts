@@ -16,32 +16,32 @@ export interface IItem extends Types.SP.ListItem {
  */
 export class DataSource {
     // Category Filters
-    private static _categoryFilters: Components.ICheckboxGroupItem[] = null;
-    static get CategoryFilters(): Components.ICheckboxGroupItem[] { return this._categoryFilters; }
+    private _categoryFilters: Components.ICheckboxGroupItem[] = null;
+    get CategoryFilters(): Components.ICheckboxGroupItem[] { return this._categoryFilters; }
 
     // Initializes the application
-    static init(viewName?: string): PromiseLike<any> {
+    init(listName: string, viewName?: string): PromiseLike<any> {
         // Return a promise
         return new Promise((resolve, reject) => {
             // Initialize the security first
             // If the list doesn't exist, then it will require the Security class to be initialized
             Security.init().then(() => {
                 // Load the data
-                this.load(viewName).then(resolve, reject);
+                this.load(listName, viewName).then(resolve, reject);
             });
         });
     }
 
     // Loads the list data
-    private static _faqList: List<IItem> = null;
-    static get FaqList(): List<IItem> { return this._faqList; }
-    static load(viewName?: string): PromiseLike<void> {
+    private _faqList: List<IItem> = null;
+    get FaqList(): List<IItem> { return this._faqList; }
+    load(listName: string = Strings.Lists.FAQ, viewName: string = Strings.ViewName): PromiseLike<void> {
         // Return a promise
         return new Promise((resolve, reject) => {
             // Load the list
             this._faqList = new List({
-                listName: Strings.Lists.FAQ,
-                viewName: viewName || Strings.ViewName,
+                listName,
+                viewName: viewName,
                 webUrl: Strings.SourceUrl,
                 itemQuery: {
                     Filter: "Approved eq 1",
