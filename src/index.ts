@@ -12,6 +12,7 @@ import "./styles.scss";
 
 // Properties
 interface IProps {
+    allowMultipleFilters?: boolean;
     el: HTMLElement;
     context?: any;
     displayMode?: number;
@@ -77,7 +78,7 @@ const GlobalVariable = {
                     Strings.EnableLoading ? LoadingDialog.hide() : null;
 
                     // Create the application
-                    GlobalVariable.App[props.context.instanceId] = new App(ds, props.el, props.showCategory);
+                    GlobalVariable.App[props.context.instanceId] = new App(ds, props.el, props.allowMultipleFilters, props.showCategory);
                 });
             },
             // Error
