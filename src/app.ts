@@ -13,9 +13,9 @@ import Strings from "./strings";
  */
 export class App {
     // Constructor
-    constructor(el: HTMLElement) {
+    constructor(el: HTMLElement, showCategory: boolean) {
         // Render the dashboard
-        this.render(el);
+        this.render(el, showCategory);
     }
 
     // Renders the navigation
@@ -129,7 +129,7 @@ export class App {
     }
 
     // Renders the dashboard
-    private render(el: HTMLElement) {
+    private render(el: HTMLElement, showCategory: boolean) {
         // Render the accordion
         let dashboard = new Dashboard({
             el,
@@ -138,7 +138,8 @@ export class App {
                 bodyFields: ["Answer"],
                 filterFields: ["Category"],
                 paginationLimit: Strings.PaginationLimit,
-                titleFields: ["Title"]
+                titleFields: showCategory ? ["Category", "Title"] : ["Title"],
+                titleTemplate: showCategory ? `<span class="badge text-bg-primary me-1">{Category}</span>{Title}` : null
             },
             filters: {
                 items: [{

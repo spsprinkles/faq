@@ -19,6 +19,7 @@ interface IProps {
     envType?: number;
     listName?: string;
     paginationLimit?: number;
+    showCategory?: boolean;
     sourceUrl?: string;
     title?: string;
     viewName?: string;
@@ -76,7 +77,7 @@ const GlobalVariable = {
                     Strings.EnableLoading ? LoadingDialog.hide() : null;
 
                     // Create the application
-                    GlobalVariable.App = new App(props.el);
+                    GlobalVariable.App = new App(props.el, props.showCategory);
                 });
             },
             // Error
