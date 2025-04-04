@@ -15,11 +15,11 @@ export class App {
     private _ds: DataSource = null;
 
     // Constructor
-    constructor(ds: DataSource, el: HTMLElement, allowMultipleFilters: boolean, showCategory: boolean) {
+    constructor(ds: DataSource, el: HTMLElement, title: string = Strings.ProjectName, allowMultipleFilters: boolean, showCategory: boolean) {
         this._ds = ds;
 
         // Render the dashboard
-        this.render(el, allowMultipleFilters, showCategory);
+        this.render(el, title, allowMultipleFilters, showCategory);
     }
 
     // Renders the navigation
@@ -133,7 +133,7 @@ export class App {
     }
 
     // Renders the dashboard
-    private render(el: HTMLElement, allowMultipleFilters: boolean, showCategory: boolean) {
+    private render(el: HTMLElement, title: string, allowMultipleFilters: boolean, showCategory: boolean) {
         // Render the accordion
         let dashboard = new Dashboard({
             el,
@@ -175,7 +175,7 @@ export class App {
                 searchPlaceholder: "Search...",
                 showFilter: false,
                 showSearch: true,
-                title: Strings.ProjectName,
+                title,
                 onRendering: props => {
                     // Update the navigation properties
                     props.className = "navbar-expand rounded-top";
@@ -186,7 +186,7 @@ export class App {
                     let text = div.cloneNode() as HTMLDivElement;
                     div.className = "d-flex me-2";
                     text.className = "ms-2";
-                    text.append(Strings.ProjectName);
+                    text.append(title);
                     div.appendChild(this.getFaqIcon());
                     div.appendChild(text);
                     props.brand = div;

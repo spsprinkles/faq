@@ -61,9 +61,6 @@ const GlobalVariable = {
         // Update the PaginationLimit from SPFx value
         props.paginationLimit ? Strings.PaginationLimit = props.paginationLimit : null;
 
-        // Update the ProjectName from SPFx title field
-        props.title ? Strings.ProjectName = props.title : null;
-
         // Initialize the application
         let ds = new DataSource();
         ds.init(props.listName, props.viewName).then(
@@ -78,7 +75,7 @@ const GlobalVariable = {
                     Strings.EnableLoading ? LoadingDialog.hide() : null;
 
                     // Create the application
-                    GlobalVariable.App[props.context.instanceId] = new App(ds, props.el, props.allowMultipleFilters, props.showCategory);
+                    GlobalVariable.App[props.context.instanceId] = new App(ds, props.el, props.title, props.allowMultipleFilters, props.showCategory);
                 });
             },
             // Error
